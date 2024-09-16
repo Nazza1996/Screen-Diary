@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "electron": "^32.1.0"
+  },
+  "dependencies": {
+    "active-win": "^8.2.1"
+  }
+}
