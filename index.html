@@ -8,9 +8,23 @@
 </head>
 <body>
 
-    <div class="side-panel">
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            await window.electronAPI.getApps();
+        });
+    </script>
+
+    <section class="side-panel">
         <button class="button">Dashboard</button>
-    </div>
+    </section>
+
+    <section id="dashboard" class="main">
+        <div class="appsContainer">
+            <div class="app">YouTube</div>
+        </div>
+    </section>
+
+    <script src="getActiveApps.js"></script>
     
 </body>
 </html>
