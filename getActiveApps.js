@@ -26,24 +26,27 @@ function formatTime(millis) {
 }
 
 
-async function main() {
-    let timestamp = [];
-    let processTime = [];
-    let formattedProcessTime = [];
+async function getApps() {
+    try {
+        let timestamp = [];
+        let processTime = [];
+        let formattedProcessTime = [];
 
-    while (true) {
-        const activeWindow = activeWin.sync();
-        const appTitle = activeWindow.owner.name;
-        timestamp[appTitle] = new Date().getTime();
-        await delay(1000);
-        if (!processTime[appTitle]) {
-            processTime[appTitle] = 0;
+        while (true) {
+            const activeWindow = activeWin.sync();
+            const appTitle = activeWindow.owner.name;
+            timestamp[appTitle] = new Date().getTime();
+            await delay(1000);
+            if (!processTime[appTitle]) {
+                processTime[appTitle] = 0;
+            }
+            processTime[appTitle] = processTime[appTitle] + (new Date().getTime() - timestamp[appTitle]);
+            formattedProcessTime[appTitle] = formatTime(processTime[appTitle]);
+            console.log(formattedProcessTime);
         }
-        processTime[appTitle] = processTime[appTitle] + (new Date().getTime() - timestamp[appTitle]);
-        formattedProcessTime[appTitle] = formatTime(processTime[appTitle]);
-        console.log(formattedProcessTime);
+    } catch (err) {
+        console.error(err);
     }
 }
 
-main();
-
+module.exports = { getApps };
