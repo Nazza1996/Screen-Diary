@@ -9,30 +9,35 @@
 <body>
 
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            await window.electronAPI.getApps();
+        document.addEventListener('DOMContentLoaded', async () => {      
+            await displayApps();      
         });
     </script>
 
     <section class="side-panel">
-        <button class="button" onclick="selectButton(event)">Dashboard</button>
+        <button id="dashboardButton" class="button clicked" onclick="selectButton('dashboardButton')">Dashboard</button>
+        <button id="settingsButton" class="button" onclick="selectButton('settingsButton')">Settings</button>
     </section>
 
     <section id="dashboard" class="main">
-        <div class="appsContainer">
-            <div class="app">YouTube</div>
+        <div id="appsContainer" class="appsContainer">
         </div>
     </section>
 
-    <script src="getActiveApps.js"></script>
     <script>
-        function selectButton(event) {
-            const button = event.target;
-            if (!button.classList.contains('clicked')) {
-                button.classList.add('clicked');
+        function selectButton(buttonId) {
+            const currentClicked = document.querySelector('.side-panel .button.clicked');
+            const newClicked = document.getElementById(buttonId);
+            if (!newClicked.classList.contains('clicked')) {
+                if (currentClicked) {
+                    currentClicked.classList.remove('clicked');
+                }
+                newClicked.classList.add('clicked');
             }
         }
     </script>
+
+    <script src="displayActiveApps.js"></script>
     
 </body>
 </html>
