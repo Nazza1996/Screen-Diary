@@ -12,17 +12,17 @@
 
 .side-panel .button {
     margin-top: 20px;
-    width: fit-content;
+    width: 220px;
     height: fit-content;
     padding: 10px;
-    align-self: center;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     background-color: #ececec;
     color: #505050;
     font-size: x-large;
     border-radius: 10px;
     border: 0;
-    
+    margin-left: 40px;
+    text-align: left;
 }
 
 .side-panel .button:hover {
@@ -43,7 +43,7 @@
     position: absolute;
     top: 0px;
     height: 100%;
-    width: 100%;
+    width: 99%;
 }
 
 .appsContainer {
@@ -53,14 +53,21 @@
 }
 
 .app {
+    margin-top: 20px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: large;
-    width: fit-content;
+    width: 600px;
     border-radius: 20px;
-    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    padding: 0 20px 0 20px;
 }
 
 .app:hover {
-    border-style: solid;
-    border-color: #ececec;
+    outline-style: solid;
+    outline-color: #ececec;
+}
+
+.appTime {
+    margin-left: auto;
 }
