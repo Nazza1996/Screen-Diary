@@ -22,11 +22,16 @@ function formatTime(millis) {
     return formattedTime.trim();
 }
 
-function newApp(appTitle) {
+function newApp(appTitle, iconPath) {
     const appsContainer = document.getElementById('appsContainer');
 
     const appElement = document.createElement('div');
     appElement.classList.add('app');
+
+    const iconElement = document.createElement('img');
+    iconElement.classList.add('appIcon');
+    iconElement.src = iconPath;
+
     const titleElement = document.createElement('p');
     titleElement.classList.add('appTitle');
     titleElement.id = `${appTitle}-title`;
@@ -37,6 +42,7 @@ function newApp(appTitle) {
     timeElement.id = `${appTitle}-time`;
     timeElement.textContent = '0s';
 
+    appElement.appendChild(iconElement);
     appElement.appendChild(titleElement);
     appElement.appendChild(timeElement);
     appsContainer.appendChild(appElement);
@@ -49,18 +55,22 @@ function updateApp(appTitle, time) {
 
 
 async function displayApps() {
-
     let timestamp = [];
     let processTime = [];
     let formattedProcessTime = [];
 
     while (true) {
-        const appTitle = await window.electronAPI.getApps();
+        const app = await window.electronAPI.getApps();
+        const activeWindow = app.activeWindow;
+
+        let appTitle = activeWindow.owner.name;
+        appTitle = appTitle.replace('.exe', '');
+
         timestamp[appTitle] = new Date().getTime();
         await delay(1000);
         if (!processTime[appTitle]) {
             processTime[appTitle] = 0;
-            newApp(appTitle);
+            newApp(appTitle, app.iconPath);
         }
         processTime[appTitle] = processTime[appTitle] + (new Date().getTime() - timestamp[appTitle]);
         formattedProcessTime[appTitle] = formatTime(processTime[appTitle]);
