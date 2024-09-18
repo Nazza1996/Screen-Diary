@@ -72,3 +72,10 @@
 .appTime {
     margin-left: auto;
 }
+
+.appIcon {
+    height: 32px;
+    width: 32px;
+    align-self: center;
+    margin-right: 20px;
+}
