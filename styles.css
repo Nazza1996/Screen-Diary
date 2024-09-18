@@ -3,6 +3,8 @@ body {
     -webkit-app-region: drag;
     -webkit-user-select: none;
     user-select: none;
+
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .titleBar {
@@ -117,4 +119,28 @@ body {
     width: 32px;
     align-self: center;
     margin-right: 20px;
+}
+
+.settingsContainer {
+    position: absolute;
+    left: 25%;
+    width: 50%;
+}
+
+.settingsTitle {
+    font-size: 30px;
+
+}
+
+.settingsSubTitle {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.setting {
+    font-size: 23px;
+    margin-left: 40px;
+    display: flex;
+    flex-direction: row;
+    height: 70px;
 }
