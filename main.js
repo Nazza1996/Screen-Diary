@@ -27,7 +27,6 @@ app.on('window-all-closed', () => {
             if (err) {
                 throw err;
             }
-            console.log('Folder deleted');
             app.quit(); // Quit after the folder is deleted
         });
     }
