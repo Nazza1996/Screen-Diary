@@ -15,18 +15,22 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', async () => {      
-            await displayApps();      
+            await displayApps();
         });
     </script>
 
     <section class="side-panel">
-        <button id="dashboardButton" class="button clicked" onclick="selectButton('dashboardButton')">Dashboard</button>
-        <button id="settingsButton" class="button" onclick="selectButton('settingsButton')">Settings</button>
+        <button id="dashboardButton" class="button clicked" onclick="selectButton('dashboardButton'); switchView('dashboard')">Dashboard</button>
+        <button id="settingsButton" class="button" onclick="selectButton('settingsButton'); switchView('settings')">Settings</button>
     </section>
 
-    <section id="dashboard" class="main">
+    <section id="dashboard" class="main active">
         <div id="appsContainer" class="appsContainer">
         </div>
+    </section>
+
+    <section id="settings" class="main">
+        
     </section>
 
     <script>
@@ -39,6 +43,19 @@
                 }
                 newClicked.classList.add('clicked');
             }
+        }
+    </script>
+
+    <script>
+        function switchView(selectedView) {
+            const allViews = document.querySelectorAll('.main');
+            allViews.forEach(view => {
+                if (view.id == selectedView) {
+                    view.classList.add('active');
+                } else {
+                    view.classList.remove('active');
+                }
+            });
         }
     </script>
 
