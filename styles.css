@@ -78,6 +78,12 @@ body {
     bottom: 0;
     background-color: white;
     border-radius: 20px 0 0 0;
+
+    display: none;
+}
+
+.main.active {
+    display: block;
 }
 
 .appsContainer {
