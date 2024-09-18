@@ -12,6 +12,11 @@ function createWindow() {
             contextIsolation: true,
             enableRemoteModule: false,
             nodeIntegration: true
+        },
+        titleBarStyle: 'hidden',
+        titleBarOverlay: {
+            color: '#ececec',
+            height: 40
         }
     });
 
@@ -22,16 +27,18 @@ app.whenReady().then(createWindow, fs.mkdirSync('./icons'));
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
-        // First, delete the folder, then quit the app
-        fs.rm('./icons', { recursive: true, force: true }, (err) => {
-            if (err) {
-                throw err;
-            }
-            app.quit(); // Quit after the folder is deleted
-        });
+        app.quit();
     }
 });
 
 ipcMain.handle('get-active-apps', async () => {
     return await getApps();
 });
+
+ipcMain.handle('save-data', (event, processData) => {
+    return saveData(processData);
+})
+
+ipcMain.handle('load-data', () => {
+    return loadData();
+})
