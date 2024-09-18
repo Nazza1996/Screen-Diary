@@ -26,16 +26,26 @@ function createWindow() {
             win.focus();
         }},
         {type: 'separator'},
-        {label: 'Quit', click: app.quit}
+        {label: 'Quit', click: () => {
+            win.destroy();
+            app.quit();
+        }}
     ]);
     tray.setToolTip('Screen Time');
     tray.setContextMenu(contextMenu);
+    tray.on('click', () => {
+        win.show();
+        win.focus();
+    });
 
     win.setMenuBarVisibility(false);
     
     win.loadFile('index.html');
 
-    win.hide();
+    win.on('close', function (event) {
+        event.preventDefault();
+        win.hide();
+    });
 }
 
 let tray = null;
