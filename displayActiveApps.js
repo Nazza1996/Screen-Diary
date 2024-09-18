@@ -22,7 +22,7 @@ function formatTime(millis) {
     return formattedTime.trim();
 }
 
-function newApp(appTitle, iconPath) {
+function newApp(appTitle, iconPath, appTime) {
     const appsContainer = document.getElementById('appsContainer');
 
     const appElement = document.createElement('div');
@@ -40,7 +40,11 @@ function newApp(appTitle, iconPath) {
     const timeElement = document.createElement('p');
     timeElement.classList.add('appTime');
     timeElement.id = `${appTitle}-time`;
-    timeElement.textContent = '0s';
+    if (appTime == 0) {
+        timeElement.textContent = '0s';
+    } else {
+        timeElement.textContent = appTime;
+    }
 
     appElement.appendChild(iconElement);
     appElement.appendChild(titleElement);
@@ -55,9 +59,25 @@ function updateApp(appTitle, time) {
 
 
 async function displayApps() {
-    let timestamp = [];
-    let processTime = [];
-    let formattedProcessTime = [];
+    let timestamp = {};
+    let processTime = {};
+    let formattedProcessTime = {};
+    let screenTimeAppUptime = 0;
+    let appData = {};
+
+    
+    if (await window.electronAPI.loadData()) {
+        const loadedApps = Object.entries(await window.electronAPI.loadData());
+        loadedApps.forEach(element => {
+            let name = element[1].name;
+            let time = formatTime(element[1].upTime);
+            let iconPath = element[1].icon;
+            newApp(name, iconPath, time);
+
+            processTime[name] = element[1].upTime;
+            timestamp[name] = (new Date().getTime() - element[1].upTime);
+        });
+    }
 
     while (true) {
         const app = await window.electronAPI.getApps();
@@ -75,5 +95,13 @@ async function displayApps() {
         processTime[appTitle] = processTime[appTitle] + (new Date().getTime() - timestamp[appTitle]);
         formattedProcessTime[appTitle] = formatTime(processTime[appTitle]);
         updateApp(appTitle, formattedProcessTime[appTitle]);
-    }
+        screenTimeAppUptime++; 
+
+        appData[appTitle] = activeWindow;
+        appData[appTitle]["upTime"] = processTime[appTitle];
+
+        if (screenTimeAppUptime % 60 == 0) {            
+            await window.electronAPI.saveData(appData);
+        };
+    };
 }
