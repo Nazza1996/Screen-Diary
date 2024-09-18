@@ -1,7 +1,6 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, Menu, Tray, contentTracing } = require('electron');
 const path = require('path');
-const { getApps } = require('./getActiveApps.js');
-const fs = require('fs');
+const { getApps, saveData, loadData } = require('./getActiveApps.js');
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -20,10 +19,30 @@ function createWindow() {
         }
     });
 
+    tray = new Tray('./icons/electron.png');
+    const contextMenu = Menu.buildFromTemplate([
+        {label: 'Show Screen Time', click: () => {
+            win.show();
+            win.focus();
+        }},
+        {type: 'separator'},
+        {label: 'Quit', click: app.quit}
+    ]);
+    tray.setToolTip('Screen Time');
+    tray.setContextMenu(contextMenu);
+
+    win.setMenuBarVisibility(false);
+    
     win.loadFile('index.html');
+
+    win.hide();
 }
 
-app.whenReady().then(createWindow, fs.mkdirSync('./icons'));
+let tray = null;
+
+app.whenReady().then(() => {
+    createWindow();
+});
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
