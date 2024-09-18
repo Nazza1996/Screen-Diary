@@ -100,7 +100,7 @@ async function displayApps() {
         appData[appTitle] = activeWindow;
         appData[appTitle]["upTime"] = processTime[appTitle];
 
-        if (screenTimeAppUptime % 60 == 0) {            
+        if (screenTimeAppUptime % 5 == 0) {            
             await window.electronAPI.saveData(appData);
         };
     };
