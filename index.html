@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Screen Time App</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="switchStyles.css">
 </head>
 
 <div class="titleBar">
@@ -20,17 +21,27 @@
     </script>
 
     <section class="side-panel">
-        <button id="dashboardButton" class="button clicked" onclick="selectButton('dashboardButton'); switchView('dashboard')">Dashboard</button>
-        <button id="settingsButton" class="button" onclick="selectButton('settingsButton'); switchView('settings')">Settings</button>
+        <button id="dashboardButton" class="button" onclick="selectButton('dashboardButton'); switchView('dashboard')">Dashboard</button>
+        <button id="settingsButton" class="button clicked" onclick="selectButton('settingsButton'); switchView('settings')">Settings</button>
     </section>
 
-    <section id="dashboard" class="main active">
+    <section id="dashboard" class="main ">
         <div id="appsContainer" class="appsContainer">
         </div>
     </section>
 
-    <section id="settings" class="main">
-        
+    <section id="settings" class="main active">
+        <div class="settingsContainer">
+            <p class="settingsTitle">Settings</p>
+            <p class="settingsSubTitle">GENERAL</p>
+            <div class="setting">
+                <p>Show in Tray</p>
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
     </section>
 
     <script>
