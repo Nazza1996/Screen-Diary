@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain, Menu, Tray, contentTracing } = require('electron');
 const path = require('path');
-const { getApps, saveData, loadData } = require('./getActiveApps.js');
+const { getApps, saveData, loadData, ifImageExists } = require('./getActiveApps.js');
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -19,7 +19,7 @@ function createWindow() {
         }
     });
 
-    tray = new Tray('./icons/electron.png');
+    tray = new Tray('./assets/icon.png');
     const contextMenu = Menu.buildFromTemplate([
         {label: 'Show Screen Time', click: () => {
             win.show();
@@ -70,4 +70,8 @@ ipcMain.handle('save-data', (event, processData) => {
 
 ipcMain.handle('load-data', () => {
     return loadData();
+})
+
+ipcMain.handle('image-exists', (event, path) => {
+    return ifImageExists(path);
 })
