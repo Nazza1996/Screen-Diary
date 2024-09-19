@@ -3,11 +3,14 @@ const icon = require('file-icon-extractor');
 const path = require('path');
 const fs = require('fs');
 
+const delay = millis => new Promise((resolve, reject) => {
+    setTimeout(_ => resolve(), millis)
+  });
+
 function getApps() {
     try {
         const activeWindow = activeWin.sync();
         icon.extract(activeWindow.owner.path, './icons', 'png');
-
         try {
             const i = `./icons/${path.parse(path.basename(activeWindow.owner.path)).name}.png`;
 
@@ -55,4 +58,8 @@ function loadData() {
     }
 }
 
-module.exports = { getApps, saveData, loadData };
+function ifImageExists (path) {
+    return fs.existsSync(path);
+}
+
+module.exports = { getApps, saveData, loadData, ifImageExists };

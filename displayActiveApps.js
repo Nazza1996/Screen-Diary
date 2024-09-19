@@ -22,7 +22,7 @@ function formatTime(millis) {
     return formattedTime.trim();
 }
 
-function newApp(appTitle, iconPath, appTime) {
+async function newApp(appTitle, iconPath, appTime) {
     const appsContainer = document.getElementById('appsContainer');
 
     const appElement = document.createElement('div');
@@ -30,7 +30,14 @@ function newApp(appTitle, iconPath, appTime) {
 
     const iconElement = document.createElement('img');
     iconElement.classList.add('appIcon');
-    iconElement.src = iconPath;
+    iconElement.src = './assets/desktop.jpg';
+    if (await window.electronAPI.imageExists(iconPath)) {
+        iconElement.src = iconPath;
+    } else {
+        setTimeout(() => {
+            iconElement.src = iconPath;
+        }, 10000);
+    }
 
     const titleElement = document.createElement('p');
     titleElement.classList.add('appTitle');
@@ -90,7 +97,7 @@ async function displayApps() {
         await delay(1000);
         if (!processTime[appTitle]) {
             processTime[appTitle] = 0;
-            newApp(appTitle, app.iconPath);
+            await newApp(appTitle, app.iconPath);
         }
         processTime[appTitle] = processTime[appTitle] + (new Date().getTime() - timestamp[appTitle]);
         formattedProcessTime[appTitle] = formatTime(processTime[appTitle]);
