@@ -47,6 +47,7 @@ async function newApp(appTitle, iconPath, appTime) {
     const timeElement = document.createElement('p');
     timeElement.classList.add('appTime');
     timeElement.id = `${appTitle}-time`;
+    timeElement.dataset.time = 0;
     if (appTime == 0) {
         timeElement.textContent = '0s';
     } else {
@@ -86,6 +87,8 @@ async function displayApps() {
         });
     }
 
+    sortApps();
+
     while (true) {
         const app = await window.electronAPI.getApps();
         const activeWindow = app.activeWindow;
@@ -107,8 +110,28 @@ async function displayApps() {
         appData[appTitle] = activeWindow;
         appData[appTitle]["upTime"] = processTime[appTitle];
 
-        if (screenTimeAppUptime % 5 == 0) {            
+        const timeElement = document.getElementById(`${appTitle}-time`);
+        timeElement.dataset.time = processTime[appTitle];
+
+        if (screenTimeAppUptime % 10 == 0) {            
             await window.electronAPI.saveData(appData);
         };
+        // sortApps();
     };
+}
+
+function sortApps() {
+    const appsContainer = document.getElementById('appsContainer');
+    const apps = Array.from(appsContainer.children);
+    apps.sort((a, b) => {
+        const timeA = Number(a.querySelector('.appTime').dataset.time);
+        const timeB = Number(b.querySelector('.appTime').dataset.time);
+
+        console.log(timeA);
+        console.log(timeB);
+
+        return timeB - timeA;
+    });
+
+    apps.forEach(app => appsContainer.appendChild(app));
 }
