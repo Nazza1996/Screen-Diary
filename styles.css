@@ -145,3 +145,10 @@ body {
     flex-direction: row;
     height: 70px;
 }
+
+#loadingText {
+    position: absolute;
+    width: 20px;
+    left: calc(50% - 20px);
+    top: 10%;
+}
