@@ -19,30 +19,7 @@ function getApps() {
     }
 }
 
-function saveDataWithWindow(processData) {
-    const date = new Date();
-    const stringDate = `${date.getDate()}${date.getMonth()+1}${date.getFullYear()}`;
-
-    const savedData = [];
-
-    Object.entries(processData).forEach(element => {
-        savedData.push({
-            name: element[1].owner.name,
-            path: element[1].owner.path,
-            upTime: element[1].upTime,
-            icon: `./icons/${path.parse(path.basename(element[1].owner.path)).name}.png`
-        })
-    })
-
-
-    fs.writeFile(`./data/${stringDate}.json`, JSON.stringify(savedData), (err) => {
-        if (err) {
-            console.error(err);
-        }
-    });
-}
-
-function saveDataWithData(data) {
+function saveData(data) {
     const date = new Date();
     const stringDate = `${date.getDate()}${date.getMonth()+1}${date.getFullYear()}`;
 
@@ -69,4 +46,4 @@ function ifImageExists (path) {
     return fs.existsSync(path);
 }
 
-module.exports = { getApps, saveDataWithWindow, saveDataWithData, loadData, ifImageExists };
+module.exports = { getApps, saveData, loadData, ifImageExists };

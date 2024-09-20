@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain, Menu, Tray, contentTracing } = require('electron');
 const path = require('path');
-const { getApps, saveDataWithWindow, saveDataWithData, loadData, ifImageExists } = require('./getActiveApps.js');
+const { getApps, saveData, loadData, ifImageExists } = require('./getActiveApps.js');
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -29,7 +29,7 @@ function createWindow() {
         {label: 'Quit', click: () => {
             win.webContents.send('request-variable-from-renderer');
             setTimeout(() => {
-                saveDataWithData(currentAppData);
+                saveData(currentAppData);
                 win.destroy();
                 app.quit();
             }, 1000);
@@ -75,12 +75,8 @@ ipcMain.handle('get-active-apps', async () => {
     return await getApps();
 });
 
-ipcMain.handle('save-data-with-window', (event, processData) => {
-    return saveDataWithWindow(processData);
-});
-
 ipcMain.handle('save-data-with-data', (event, processData) => {
-    return saveDataWithData(processData);
+    return saveData(processData);
 });
 
 ipcMain.handle('load-data', () => {
