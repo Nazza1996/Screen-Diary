@@ -65,14 +65,14 @@ function updateApp(appTitle, time) {
     timeElement.textContent = time;
 }
 
+let appData = {};
+let dailyAppData = [];
 
 async function displayApps() {
     let timestamp = {};
     let processTime = {};
     let formattedProcessTime = {};
     let screenTimeAppUptime = 0;
-    let appData = {};
-
     
     if (await window.electronAPI.loadData()) {
         const loadedApps = Object.entries(await window.electronAPI.loadData());
@@ -80,7 +80,15 @@ async function displayApps() {
             let name = element[1].name;
             let time = formatTime(element[1].upTime);
             let iconPath = element[1].icon;
+            let path = element[1].path;
             newApp(name, iconPath, time);
+
+            dailyAppData.push({
+                name: name,
+                path: path,
+                upTime: element[1].upTime,
+                icon: iconPath
+            });
 
             processTime[name] = element[1].upTime;
             timestamp[name] = (new Date().getTime() - element[1].upTime);
@@ -110,13 +118,24 @@ async function displayApps() {
         appData[appTitle] = activeWindow;
         appData[appTitle]["upTime"] = processTime[appTitle];
 
+        if (dailyAppData.find((obj) => obj.name === appTitle)) {
+            dailyAppData.find((obj) => obj.name === appTitle).upTime = processTime[appTitle];
+        } else {
+            dailyAppData.push({
+                name: appTitle,
+                path: activeWindow.owner.path,
+                upTime: processTime[appTitle],
+                icon: app.iconPath
+            });
+        }
+
         const timeElement = document.getElementById(`${appTitle}-time`);
         timeElement.dataset.time = processTime[appTitle];
 
         if (screenTimeAppUptime % 10 == 0) {            
-            await window.electronAPI.saveData(appData);
+            await window.electronAPI.saveDataWithWindow(appData);
         };
-        // sortApps();
+        sortApps();
     };
 }
 
@@ -135,3 +154,8 @@ function sortApps() {
 
     apps.forEach(app => appsContainer.appendChild(app));
 }
+
+window.electronAPI.receiveRequestFromMain((event) => {
+    console.log("Requested");
+    window.electronAPI.sendVariableToMain(dailyAppData);
+});

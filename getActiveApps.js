@@ -3,10 +3,6 @@ const icon = require('file-icon-extractor');
 const path = require('path');
 const fs = require('fs');
 
-const delay = millis => new Promise((resolve, reject) => {
-    setTimeout(_ => resolve(), millis)
-  });
-
 function getApps() {
     try {
         const activeWindow = activeWin.sync();
@@ -23,7 +19,7 @@ function getApps() {
     }
 }
 
-function saveData(processData) {
+function saveDataWithWindow(processData) {
     const date = new Date();
     const stringDate = `${date.getDate()}${date.getMonth()+1}${date.getFullYear()}`;
 
@@ -46,6 +42,17 @@ function saveData(processData) {
     });
 }
 
+function saveDataWithData(data) {
+    const date = new Date();
+    const stringDate = `${date.getDate()}${date.getMonth()+1}${date.getFullYear()}`;
+
+    fs.writeFile(`./data/${stringDate}.json`, JSON.stringify(data), (err) => {
+        if (err) {
+            console.error(err);
+        }
+    });
+}
+
 function loadData() {
     try {
         const date = new Date();
@@ -62,4 +69,4 @@ function ifImageExists (path) {
     return fs.existsSync(path);
 }
 
-module.exports = { getApps, saveData, loadData, ifImageExists };
+module.exports = { getApps, saveDataWithWindow, saveDataWithData, loadData, ifImageExists };

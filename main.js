@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain, Menu, Tray, contentTracing } = require('electron');
 const path = require('path');
-const { getApps, saveData, loadData, ifImageExists } = require('./getActiveApps.js');
+const { getApps, saveDataWithWindow, saveDataWithData, loadData, ifImageExists } = require('./getActiveApps.js');
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -27,10 +27,15 @@ function createWindow() {
         }},
         {type: 'separator'},
         {label: 'Quit', click: () => {
-            win.destroy();
-            app.quit();
+            win.webContents.send('request-variable-from-renderer');
+            setTimeout(() => {
+                saveDataWithData(currentAppData);
+                win.destroy();
+                app.quit();
+            }, 1000);
         }}
     ]);
+
     tray.setToolTip('Screen Time');
     tray.setContextMenu(contextMenu);
     tray.on('click', () => {
@@ -45,6 +50,12 @@ function createWindow() {
     win.on('close', function (event) {
         event.preventDefault();
         win.hide();
+    });
+
+    win.on('close', () => {
+        if (process.platform !== 'darwin') {
+            win.webContents.send('request-variable-from-renderer');
+        }
     });
 }
 
@@ -64,14 +75,23 @@ ipcMain.handle('get-active-apps', async () => {
     return await getApps();
 });
 
-ipcMain.handle('save-data', (event, processData) => {
-    return saveData(processData);
-})
+ipcMain.handle('save-data-with-window', (event, processData) => {
+    return saveDataWithWindow(processData);
+});
+
+ipcMain.handle('save-data-with-data', (event, processData) => {
+    return saveDataWithData(processData);
+});
 
 ipcMain.handle('load-data', () => {
     return loadData();
-})
+});
 
 ipcMain.handle('image-exists', (event, path) => {
     return ifImageExists(path);
-})
+});
+
+let currentAppData = null;
+ipcMain.on('send-variable-to-main', (event, variable) => {
+    currentAppData = variable;
+});
