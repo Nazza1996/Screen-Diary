@@ -10,7 +10,7 @@ function createWindow() {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true,
             enableRemoteModule: false,
-            nodeIntegration: true
+            nodeIntegration: false
         },
         titleBarStyle: 'hidden',
         titleBarOverlay: {
