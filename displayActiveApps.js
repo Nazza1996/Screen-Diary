@@ -51,7 +51,8 @@ async function newApp(appTitle, iconPath, appTime) {
     if (appTime == 0) {
         timeElement.textContent = '0s';
     } else {
-        timeElement.textContent = appTime;
+        timeElement.textContent = formatTime(appTime);
+        timeElement.dataset.time = appTime;
     }
 
     appElement.appendChild(iconElement);
@@ -78,7 +79,7 @@ async function displayApps() {
         const loadedApps = Object.entries(await window.electronAPI.loadData());
         loadedApps.forEach(element => {
             let name = element[1].name;
-            let time = formatTime(element[1].upTime);
+            let time = element[1].upTime;
             let iconPath = element[1].icon;
             let path = element[1].path;
             newApp(name, iconPath, time);
@@ -86,7 +87,7 @@ async function displayApps() {
             dailyAppData.push({
                 name: name,
                 path: path,
-                upTime: element[1].upTime,
+                upTime: time,
                 icon: iconPath
             });
 
@@ -94,6 +95,11 @@ async function displayApps() {
             timestamp[name] = (new Date().getTime() - element[1].upTime);
         });
     }
+
+    setTimeout(() => {
+        document.getElementById('appsContainer').style.display = '';
+        document.getElementById('loadingText').style.display = 'none';
+    }, 2000);
 
     sortApps();
 
@@ -132,8 +138,8 @@ async function displayApps() {
         const timeElement = document.getElementById(`${appTitle}-time`);
         timeElement.dataset.time = processTime[appTitle];
 
-        if (screenTimeAppUptime % 10 == 0) {            
-            await window.electronAPI.saveDataWithWindow(appData);
+        if (screenTimeAppUptime % 120 == 0) {            
+            await window.electronAPI.saveDataWithData(dailyAppData);
         };
         sortApps();
     };
@@ -145,13 +151,10 @@ function sortApps() {
     apps.sort((a, b) => {
         const timeA = Number(a.querySelector('.appTime').dataset.time);
         const timeB = Number(b.querySelector('.appTime').dataset.time);
-
-        console.log(timeA);
-        console.log(timeB);
-
         return timeB - timeA;
     });
 
+    appsContainer.innerHTML = '';
     apps.forEach(app => appsContainer.appendChild(app));
 }
 
