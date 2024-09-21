@@ -22,7 +22,7 @@ function createWindow() {
 
     tray = new Tray(path.join(__dirname, "/assets/icon.png"));
     const contextMenu = Menu.buildFromTemplate([
-        {label: 'Show Screen Time', click: () => {
+        {label: 'Show Screen Diary', click: () => {
             win.show();
             win.focus();
         }},
@@ -37,7 +37,7 @@ function createWindow() {
         }}
     ]);
 
-    tray.setToolTip('Screen Time');
+    tray.setToolTip('Screen Diary');
     tray.setContextMenu(contextMenu);
     tray.on('click', () => {
         win.show();
