@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain, Menu, Tray, contentTracing } = require('electron');
 const path = require('path');
 const { getApps, saveData, loadData, ifImageExists } = require('./getActiveApps.js');
+const { toggleRunOnStartup } = require('./settingsScripts.js');
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -11,7 +12,7 @@ function createWindow() {
             contextIsolation: true,
             enableRemoteModule: false,
             nodeIntegration: false,
-            devTools: false
+            // devTools: false
         },
         titleBarStyle: 'hidden',
         titleBarOverlay: {
@@ -44,7 +45,7 @@ function createWindow() {
         win.focus();
     });
 
-    win.setMenuBarVisibility(false);
+    // win.setMenuBarVisibility(false);
     
     win.loadFile('./index.html');
 
@@ -92,3 +93,7 @@ let currentAppData = null;
 ipcMain.on('send-variable-to-main', (event, variable) => {
     currentAppData = variable;
 });
+
+ipcMain.handle('toggle-run-on-startup', async () => {
+    return await toggleRunOnStartup();
+})

@@ -88,10 +88,10 @@
     </script>
 
     <script>
-        function toggleSettings(setting) {
+        async function toggleSettings(setting) {
             switch (setting) {
                 case 'runOnSystemStart':
-                    
+                    console.log(await window.electronAPI.toggleRunOnStartup());
                     break;
                 
                 case 'startInTray':
