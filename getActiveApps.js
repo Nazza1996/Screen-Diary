@@ -6,9 +6,9 @@ const fs = require('fs');
 function getApps() {
     try {
         const activeWindow = activeWin.sync();
-        icon.extract(activeWindow.owner.path, './icons', 'png');
+        icon.extract(activeWindow.owner.path, path.join(__dirname, '/icons'), 'png');
         try {
-            const i = `./icons/${path.parse(path.basename(activeWindow.owner.path)).name}.png`;
+            const i = path.join(__dirname, `/icons/${path.parse(path.basename(activeWindow.owner.path)).name}.png`);
 
             return {activeWindow: activeWindow, iconPath: i};
         } catch (error) {
@@ -23,7 +23,9 @@ function saveData(data) {
     const date = new Date();
     const stringDate = `${date.getDate()}${date.getMonth()+1}${date.getFullYear()}`;
 
-    fs.writeFile(`./data/${stringDate}.json`, JSON.stringify(data), (err) => {
+    const savePath = path.join(__dirname, `/data/${stringDate}.json`)
+
+    fs.writeFile(savePath, JSON.stringify(data), (err) => {
         if (err) {
             console.error(err);
         }
@@ -33,8 +35,8 @@ function saveData(data) {
 function loadData() {
     try {
         const date = new Date();
-        const path = `./data/${date.getDate()}${date.getMonth()+1}${date.getFullYear()}.json`;
-        const data = JSON.parse(fs.readFileSync(path));
+        const loadPath = path.join(__dirname, `/data/${date.getDate()}${date.getMonth()+1}${date.getFullYear()}.json`);
+        const data = JSON.parse(fs.readFileSync(loadPath));
 
         return data;
     } catch {

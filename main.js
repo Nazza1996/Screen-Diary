@@ -10,7 +10,8 @@ function createWindow() {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true,
             enableRemoteModule: false,
-            nodeIntegration: false
+            nodeIntegration: false,
+            devTools: false
         },
         titleBarStyle: 'hidden',
         titleBarOverlay: {
@@ -19,7 +20,7 @@ function createWindow() {
         }
     });
 
-    tray = new Tray('./assets/icon.png');
+    tray = new Tray(path.join(__dirname, "/assets/icon.png"));
     const contextMenu = Menu.buildFromTemplate([
         {label: 'Show Screen Time', click: () => {
             win.show();
@@ -45,7 +46,7 @@ function createWindow() {
 
     win.setMenuBarVisibility(false);
     
-    win.loadFile('index.html');
+    win.loadFile('./index.html');
 
     win.on('close', function (event) {
         event.preventDefault();
