@@ -35,10 +35,31 @@
         <div class="settingsContainer">
             <p class="settingsTitle">Settings</p>
             <p class="settingsSubTitle">GENERAL</p>
-            <div class="setting">
-                <p>Show in Tray</p>
+
+            <div class="setting"><p>Run on System Start Up</p>
+                <label class="switch">
+                    <input type="checkbox" onclick="toggleSettings('runOnSystemStart')">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="setting"><p>Start Minimised</p>
+                <label class="switch">
+                    <input type="checkbox" onclick="toggleSettings('startMinimised')">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="setting"><p>Show in Tray</p>
                 <label class="switch">
                     <input type="checkbox" onclick="toggleSettings('showInTray')">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="setting"><p>Run in Background</p>
+                <label class="switch">
+                    <input type="checkbox" onclick="toggleSettings('runInBackground')">
                     <span class="slider"></span>
                 </label>
             </div>
