@@ -151,6 +151,13 @@ body {
     height: 70px;
 }
 
+.settingsDescription {
+    position: absolute;
+    margin-top: 55px;
+    font-size: 15px;
+    font-style: italic;
+}
+
 #loadingText {
     position: absolute;
     width: 20px;
