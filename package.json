@@ -8,6 +8,7 @@
   },
   "keywords": [],
   "author": "Nathan Watkins",
+  "productName": "Screen Diary",
   "license": "ISC",
   "devDependencies": {
     "@electron/packager": "^18.3.5",
