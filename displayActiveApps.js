@@ -139,7 +139,7 @@ async function displayApps() {
         timeElement.dataset.time = processTime[appTitle];
 
         if (screenTimeAppUptime % 120 == 0) {            
-            await window.electronAPI.saveDataWithData(dailyAppData);
+            await window.electronAPI.saveData(dailyAppData);
         };
         sortApps();
     };
