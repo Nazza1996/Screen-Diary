@@ -65,6 +65,7 @@ body {
 .side-panel .button:hover {
     background-color: #c0c0c0;
     transition: background-color 0.2s ease;
+    cursor: pointer;
 }
 
 .side-panel .button:active {
