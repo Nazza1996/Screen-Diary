@@ -1,5 +1,5 @@
 {
-  "name": "Screen Diary",
+  "name": "screendiary",
   "version": "1.0.0",
   "description": "A Screen Time app for Windows 11",
   "main": "main.js",
@@ -7,7 +7,7 @@
     "start": "electron ."
   },
   "keywords": [],
-  "author": "",
+  "author": "Nathan Watkins",
   "license": "ISC",
   "devDependencies": {
     "@electron/packager": "^18.3.5",
