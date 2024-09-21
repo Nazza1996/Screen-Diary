@@ -43,25 +43,20 @@
                 </label>
             </div>
 
-            <div class="setting"><p>Start Minimised</p>
+            <div class="setting"><p>Start in Tray</p>
                 <label class="switch">
-                    <input type="checkbox" onclick="toggleSettings('startMinimised')">
+                    <input type="checkbox" onclick="toggleSettings('startInTray')">
                     <span class="slider"></span>
                 </label>
+                <p class="settingsDescription">Start App Minimised in the System Tray</p>
             </div>
 
-            <div class="setting"><p>Show in Tray</p>
+            <div class="setting"><p>Close to Tray</p>
                 <label class="switch">
-                    <input type="checkbox" onclick="toggleSettings('showInTray')">
+                    <input type="checkbox" onclick="toggleSettings('closeToTray')">
                     <span class="slider"></span>
                 </label>
-            </div>
-
-            <div class="setting"><p>Run in Background</p>
-                <label class="switch">
-                    <input type="checkbox" onclick="toggleSettings('runInBackground')">
-                    <span class="slider"></span>
-                </label>
+                <p class="settingsDescription">Closing Main Window Minimises to the System Tray</p>
             </div>
         </div>
     </section>
@@ -94,7 +89,20 @@
 
     <script>
         function toggleSettings(setting) {
-            
+            switch (setting) {
+                case 'runOnSystemStart':
+                    
+                    break;
+                
+                case 'startInTray':
+                    break;
+                
+                case 'closeToTray':
+                    break;
+
+                default:
+                    break;
+            }
         }
     </script>
 
