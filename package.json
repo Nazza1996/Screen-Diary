@@ -10,7 +10,6 @@
   "author": "Nathan Watkins",
   "license": "ISC",
   "devDependencies": {
-    "@electron/packager": "^18.3.5",
     "electron": "^32.1.0"
   },
   "dependencies": {
