@@ -48,5 +48,9 @@ function toggleStartMinimised() {
     store.set('startMinimised', !store.get('startMinimised'));
 }
 
+function toggleCloseToTray() {
+    store.set('closeToTray', !store.get('closeToTray'));
+}
 
-module.exports = { toggleRunOnStartup, initializeSettings, toggleStartMinimised };
+
+module.exports = { toggleRunOnStartup, initializeSettings, toggleStartMinimised, toggleCloseToTray };

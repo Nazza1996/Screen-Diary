@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain, Menu, Tray, contentTracing } = require('electron');
 const path = require('path');
 const { getApps, saveData, loadData, ifImageExists } = require('./getActiveApps.js');
-const { toggleRunOnStartup, toggleStartMinimised, initializeSettings } = require('./settingsScripts.js');
+const { toggleRunOnStartup, toggleStartMinimised, initializeSettings, toggleCloseToTray } = require('./settingsScripts.js');
 const Store = require('electron-store');
 
 let win = null;
@@ -51,10 +51,12 @@ function createWindow() {
     
     win.loadFile('./index.html');
 
-    win.on('close', function (event) {
-        event.preventDefault();
-        win.hide();
-    });
+    if (store.get('closeToTray') == true) {
+        win.on('close', function (event) {
+            event.preventDefault();
+            win.hide();
+        });
+    }
 
     win.on('close', () => {
         if (process.platform !== 'darwin') {
@@ -105,6 +107,10 @@ ipcMain.handle('toggle-run-on-startup', async () => {
 
 ipcMain.handle('toggle-start-minimised', () => {
     toggleStartMinimised();
+});
+
+ipcMain.handle('toggle-close-to-tray', () => {
+    toggleCloseToTray();
 });
 
 ipcMain.handle('get-settings', async () => {

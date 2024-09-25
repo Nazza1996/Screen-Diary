@@ -9,5 +9,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     receiveRequestFromMain: (callback) => ipcRenderer.on('request-variable-from-renderer', callback),
     toggleRunOnStartup: async () => ipcRenderer.invoke('toggle-run-on-startup'),
     toggleStartMinimised: () => ipcRenderer.invoke('toggle-start-minimised'),
+    toggleCloseToTray: () => ipcRenderer.invoke('toggle-close-to-tray'),
     getSettings: async () => ipcRenderer.invoke('get-settings')
 });
