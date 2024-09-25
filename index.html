@@ -19,7 +19,7 @@
             const settings = new Array(await window.electronAPI.getSettings());
             const runOnStartup = settings[0].runOnStartup;
             const startMinimised = settings[0].startMinimised;
-            const closeToTray = settings[0].startInTray;
+            const closeToTray = settings[0].closeToTray;
 
             const runOnStartupSwitch = document.getElementById('runOnStartupSwitch').checked = runOnStartup;
             const startInTraySwitch = document.getElementById('startInTraySwitch').checked = startMinimised;
