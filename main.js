@@ -51,12 +51,13 @@ function createWindow() {
     
     win.loadFile('./index.html');
 
-    if (store.get('closeToTray') == true) {
-        win.on('close', function (event) {
+    win.on('close', function (event) {
+        if (store.get('closeToTray') == true) {
             event.preventDefault();
             win.hide();
-        });
-    }
+        }
+    });
+
 
     win.on('close', () => {
         if (process.platform !== 'darwin') {

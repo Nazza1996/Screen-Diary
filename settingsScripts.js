@@ -28,7 +28,7 @@ function initializeSettings() {
 
 async function toggleRunOnStartup() {
     const startUpFolder = path.join(os.homedir(), 'AppData', 'Roaming', 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'Startup');
-    const exePath = 'Screen Diary.exe';
+    const exePath = path.join(__dirname, '../../ScreenDiary.exe');
     const targetPath = path.join(startUpFolder, 'ScreenDiary.lnk');
     
     if (!fs.existsSync(targetPath)) {
