@@ -1,10 +1,12 @@
 const { app, BrowserWindow, ipcMain, Menu, Tray, contentTracing } = require('electron');
 const path = require('path');
 const { getApps, saveData, loadData, ifImageExists } = require('./getActiveApps.js');
-const { toggleRunOnStartup } = require('./settingsScripts.js');
+const { toggleRunOnStartup, toggleStartMinimised, initializeSettings } = require('./settingsScripts.js');
+const Store = require('electron-store');
 
+let win = null;
 function createWindow() {
-    const win = new BrowserWindow({
+    win = new BrowserWindow({
         width: 1280,
         height: 720,
         webPreferences: {
@@ -61,10 +63,13 @@ function createWindow() {
     });
 }
 
-let tray = null;
+const store = new Store();
 
 app.whenReady().then(() => {
     createWindow();
+    if (store.get('startMinimised') == true) {
+        win.hide();
+    }
 });
 
 app.on('window-all-closed', () => {
@@ -96,4 +101,14 @@ ipcMain.on('send-variable-to-main', (event, variable) => {
 
 ipcMain.handle('toggle-run-on-startup', async () => {
     return await toggleRunOnStartup();
-})
+});
+
+ipcMain.handle('toggle-start-minimised', () => {
+    toggleStartMinimised();
+});
+
+ipcMain.handle('get-settings', async () => {
+    return new Promise ((resolve, reject) => {
+        resolve(initializeSettings());
+    });
+});

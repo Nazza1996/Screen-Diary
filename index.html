@@ -16,6 +16,15 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', async () => {      
+            const settings = new Array(await window.electronAPI.getSettings());
+            const runOnStartup = settings[0].runOnStartup;
+            const startMinimised = settings[0].startMinimised;
+            const closeToTray = settings[0].startInTray;
+
+            const runOnStartupSwitch = document.getElementById('runOnStartupSwitch').checked = runOnStartup;
+            const startInTraySwitch = document.getElementById('startInTraySwitch').checked = startMinimised;
+            const closeToTraySwitch = document.getElementById('closeToTraySwitch').checked = closeToTray;
+
             await displayApps();
         });
     </script>
@@ -38,14 +47,14 @@
 
             <div class="setting"><p>Run on System Start Up</p>
                 <label class="switch">
-                    <input type="checkbox" onclick="toggleSettings('runOnSystemStart')">
+                    <input id="runOnStartupSwitch" type="checkbox" onclick="toggleSettings('runOnSystemStart')">
                     <span class="slider"></span>
                 </label>
             </div>
 
             <div class="setting"><p>Start in Tray</p>
                 <label class="switch">
-                    <input type="checkbox" onclick="toggleSettings('startInTray')">
+                    <input id="startInTraySwitch" type="checkbox" onclick="toggleSettings('startInTray')">
                     <span class="slider"></span>
                 </label>
                 <p class="settingsDescription">Start App Minimised in the System Tray</p>
@@ -53,7 +62,7 @@
 
             <div class="setting"><p>Close to Tray</p>
                 <label class="switch">
-                    <input type="checkbox" onclick="toggleSettings('closeToTray')">
+                    <input id="closeToTraySwitch" type="checkbox" onclick="toggleSettings('closeToTray')">
                     <span class="slider"></span>
                 </label>
                 <p class="settingsDescription">Closing Main Window Minimises to the System Tray</p>
@@ -88,6 +97,12 @@
     </script>
 
     <script>
+        async function getSettings() {
+            console.log("Hey");
+            const settings = await window.electronAPI.getSettings();
+            console.log(settings);
+        }
+
         async function toggleSettings(setting) {
             switch (setting) {
                 case 'runOnSystemStart':
@@ -95,6 +110,7 @@
                     break;
                 
                 case 'startInTray':
+                    window.electronAPI.toggleStartMinimised();
                     break;
                 
                 case 'closeToTray':

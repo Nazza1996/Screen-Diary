@@ -7,5 +7,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     imageExists: (path) => ipcRenderer.invoke('image-exists', path),
     sendVariableToMain: (variable) => ipcRenderer.send('send-variable-to-main', variable),
     receiveRequestFromMain: (callback) => ipcRenderer.on('request-variable-from-renderer', callback),
-    toggleRunOnStartup: async () => ipcRenderer.invoke('toggle-run-on-startup')
+    toggleRunOnStartup: async () => ipcRenderer.invoke('toggle-run-on-startup'),
+    toggleStartMinimised: () => ipcRenderer.invoke('toggle-start-minimised'),
+    getSettings: async () => ipcRenderer.invoke('get-settings')
 });
