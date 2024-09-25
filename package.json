@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "active-win": "^8.2.1",
+    "electron-store": "^8.2.0",
     "file-icon-extractor": "^1.0.4",
     "os": "^0.1.2",
     "windows-shortcuts": "^0.1.6"
