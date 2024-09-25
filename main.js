@@ -5,6 +5,22 @@ const { toggleRunOnStartup, toggleStartMinimised, initializeSettings, toggleClos
 const Store = require('electron-store');
 
 let win = null;
+
+const gotTheLock = app.requestSingleInstanceLock();
+if (!gotTheLock) {
+    app.quit();
+} else {
+    app.on('second-instance', () => {
+        if (win) {
+            if (win.isMinimized()) {
+                win.restore();
+            }
+            win.show();
+            win.focus();
+        }
+    });
+}
+
 function createWindow() {
     win = new BrowserWindow({
         width: 1280,
