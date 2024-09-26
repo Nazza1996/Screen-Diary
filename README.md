@@ -5,5 +5,5 @@
  
 ![image](https://github.com/user-attachments/assets/f2ae7e8a-dea8-4b46-84f6-fb87f9ecfc25)
 
-#Compatibility 
+# Compatibility 
 Screen Diary has only been tested on Windows 11, however it should run on Windows 10.
