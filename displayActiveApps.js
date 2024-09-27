@@ -30,13 +30,10 @@ async function newApp(appTitle, iconPath, appTime) {
 
     const iconElement = document.createElement('img');
     iconElement.classList.add('appIcon');
+    iconElement.id = `${appTitle}-icon`;
     iconElement.src = './assets/desktop.jpg';
     if (await window.electronAPI.imageExists(iconPath)) {
         iconElement.src = iconPath;
-    } else {
-        setTimeout(() => {
-            iconElement.src = iconPath;
-        }, 10000);
     }
 
     const titleElement = document.createElement('p');
@@ -104,44 +101,53 @@ async function displayApps() {
     sortApps();
 
     while (true) {
-        const app = await window.electronAPI.getApps();
-        const activeWindow = app.activeWindow;
+        try {
+            const app = await window.electronAPI.getApps();
+            const activeWindow = app.activeWindow;
 
-        let appTitle = activeWindow.owner.name;
-        appTitle = appTitle.replace('.exe', '');
+            let appTitle = activeWindow.owner.name;
+            appTitle = appTitle.replace('.exe', '');
 
-        timestamp[appTitle] = new Date().getTime();
-        await delay(1000);
-        if (!processTime[appTitle]) {
-            processTime[appTitle] = 0;
-            await newApp(appTitle, app.iconPath);
-        }
-        processTime[appTitle] = processTime[appTitle] + (new Date().getTime() - timestamp[appTitle]);
-        formattedProcessTime[appTitle] = formatTime(processTime[appTitle]);
-        updateApp(appTitle, formattedProcessTime[appTitle]);
-        screenTimeAppUptime++; 
+            timestamp[appTitle] = new Date().getTime();
+            await delay(1000);
+            if (!processTime[appTitle]) {
+                processTime[appTitle] = 0;
+                await newApp(appTitle, app.iconPath);
+            }
 
-        appData[appTitle] = activeWindow;
-        appData[appTitle]["upTime"] = processTime[appTitle];
+            if (app.isNewImage) {
+                const iconElement = document.getElementById(`${appTitle}-icon`);
+                iconElement.src = null;
+                iconElement.src = app.iconPath;
+            }
 
-        if (dailyAppData.find((obj) => obj.name === appTitle)) {
-            dailyAppData.find((obj) => obj.name === appTitle).upTime = processTime[appTitle];
-        } else {
-            dailyAppData.push({
-                name: appTitle,
-                path: activeWindow.owner.path,
+            processTime[appTitle] = processTime[appTitle] + (new Date().getTime() - timestamp[appTitle]);
+            formattedProcessTime[appTitle] = formatTime(processTime[appTitle]);
+            updateApp(appTitle, formattedProcessTime[appTitle]);
+            screenTimeAppUptime++; 
+
+            appData[appTitle] = activeWindow;
+            appData[appTitle]["upTime"] = processTime[appTitle];
+
+            if (dailyAppData.find((obj) => obj.name === appTitle)) {
+                dailyAppData.find((obj) => obj.name === appTitle).upTime = processTime[appTitle];
+            } else {
+                dailyAppData.push({
+                    name: appTitle,
+                    path: activeWindow.owner.path,
                 upTime: processTime[appTitle],
-                icon: app.iconPath
-            });
-        }
+                    icon: app.iconPath
+                });
+            } 
 
-        const timeElement = document.getElementById(`${appTitle}-time`);
-        timeElement.dataset.time = processTime[appTitle];
+            const timeElement = document.getElementById(`${appTitle}-time`);
+            timeElement.dataset.time = processTime[appTitle];
 
-        if (screenTimeAppUptime % 120 == 0) {            
-            await window.electronAPI.saveData(dailyAppData);
-        };
-        sortApps();
+            if (screenTimeAppUptime % 120 == 0) {            
+                await window.electronAPI.saveData(dailyAppData);
+            };
+            sortApps();
+        } catch (error) {}
     };
 }
 

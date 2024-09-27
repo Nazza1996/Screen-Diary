@@ -6,11 +6,17 @@ const fs = require('fs');
 function getApps() {
     try {
         const activeWindow = activeWin.sync();
-        icon.extract(activeWindow.owner.path, path.join(__dirname, '/icons'), 'png');
+        const iconPath = path.join(__dirname, `/icons/${path.parse(path.basename(activeWindow.owner.path)).name}.png`);
+        let isNewImage = false;
+        
         try {
-            const i = path.join(__dirname, `/icons/${path.parse(path.basename(activeWindow.owner.path)).name}.png`);
 
-            return {activeWindow: activeWindow, iconPath: i};
+            if (!fs.existsSync(iconPath)) {
+                icon.extract(activeWindow.owner.path, path.join(__dirname, '/icons'), 'png');
+                isNewImage = true;
+            }
+
+            return {activeWindow: activeWindow, iconPath: iconPath, isNewImage: isNewImage};
         } catch (error) {
             console.error(error);
         }
