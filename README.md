@@ -12,7 +12,7 @@ Compatability is unknown for macOS and Linux, use with caution.
 ## Installation
 
 Download the latest release and unzip to directory of choice. Launch ScreenDiary.exe.
-#### If you want to create a shortcut to the app:
+**If you want to create a shortcut to the app:**
 1. Right click the executable
 2. Click 'Show More Options'
 3. Click 'Create Shortcut' 
