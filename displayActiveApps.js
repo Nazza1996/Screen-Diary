@@ -105,6 +105,12 @@ async function displayApps() {
             const app = await window.electronAPI.getApps();
             const activeWindow = app.activeWindow;
 
+            if (activeWindow.title == null || activeWindow.title == "") {
+                console.log("Skipping");
+                await delay(1000);
+                continue;
+            }
+
             let appTitle = activeWindow.owner.name;
             appTitle = appTitle.replace('.exe', '');
 
