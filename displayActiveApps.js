@@ -102,6 +102,9 @@ async function displayApps() {
 
     while (true) {
         try {
+            const totalTimeCounter = document.getElementById('totalTime-time');
+            totalTimeCounter.innerText = formatTime(screenTimeAppUptime*1000);
+
             const app = await window.electronAPI.getApps();
             const activeWindow = app.activeWindow;
 

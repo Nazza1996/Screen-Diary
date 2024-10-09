@@ -30,7 +30,7 @@ function createWindow() {
             contextIsolation: true,
             enableRemoteModule: false,
             nodeIntegration: false,
-            // devTools: false
+            devTools: false
         },
         titleBarStyle: 'hidden',
         titleBarOverlay: {
@@ -63,7 +63,7 @@ function createWindow() {
         win.focus();
     });
 
-    // win.setMenuBarVisibility(false);
+    win.setMenuBarVisibility(false);
     
     win.loadFile('./index.html');
 
