@@ -3,7 +3,8 @@
 
  Built from the ground up using Elecron and Node.js, with styling using CSS.
  
-![image](https://github.com/user-attachments/assets/f2ae7e8a-dea8-4b46-84f6-fb87f9ecfc25)
+![image](https://github.com/user-attachments/assets/9e8a9af2-1e6f-49a1-b599-9731ebc5b045)
+
 
 ## Compatibility 
 Screen Diary has only been tested on Windows 11, however it should run on Windows 10.
