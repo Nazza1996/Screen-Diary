@@ -104,6 +104,11 @@ async function displayApps() {
         try {
             const totalTimeCounter = document.getElementById('totalTime-time');
             totalTimeCounter.innerText = formatTime(screenTimeAppUptime*1000);
+            screenTimeAppUptime++; 
+
+            if (screenTimeAppUptime % 120 == 0) {            
+                await window.electronAPI.saveData(dailyAppData);
+            };
 
             const app = await window.electronAPI.getApps();
             const activeWindow = app.activeWindow;
@@ -133,7 +138,6 @@ async function displayApps() {
             processTime[appTitle] = processTime[appTitle] + (new Date().getTime() - timestamp[appTitle]);
             formattedProcessTime[appTitle] = formatTime(processTime[appTitle]);
             updateApp(appTitle, formattedProcessTime[appTitle]);
-            screenTimeAppUptime++; 
 
             appData[appTitle] = activeWindow;
             appData[appTitle]["upTime"] = processTime[appTitle];
@@ -152,9 +156,6 @@ async function displayApps() {
             const timeElement = document.getElementById(`${appTitle}-time`);
             timeElement.dataset.time = processTime[appTitle];
 
-            if (screenTimeAppUptime % 120 == 0) {            
-                await window.electronAPI.saveData(dailyAppData);
-            };
             sortApps();
         } catch (error) {}
     };
