@@ -87,21 +87,31 @@ async function displayApps() {
     if (await window.electronAPI.loadData()) {
         const loadedApps = Object.entries(await window.electronAPI.loadData()); // Load saved app data
         loadedApps.forEach(element => {
-            let name = element[1].name; // Get app name
-            let time = element[1].upTime; // Get app uptime
-            let iconPath = element[1].icon; // Get app icon path
-            let path = element[1].path; // Get app path
-            newApp(name, iconPath, time); // Create a new app element
+            if (element[1].name == "appUptime") {
+                screenTimeAppUptime = element[1].appUpTime; // Set screen time app uptime
 
-            dailyAppData.push({
-                name: name,
-                path: path,
-                upTime: time,
-                icon: iconPath
-            });
+                dailyAppData.push({
+                    name: "appUptime",
+                    appUpTime: element[1].appUpTime
+                }); // Push the app uptime data to daily app data
 
-            processTime[name] = element[1].upTime; // Set process time for the app
-            timestamp[name] = (new Date().getTime() - element[1].upTime); // Set timestamp for the app
+            } else {
+                let name = element[1].name; // Get app name
+                let time = element[1].upTime; // Get app uptime
+                let iconPath = element[1].icon; // Get app icon path
+                let path = element[1].path; // Get app path
+                newApp(name, iconPath, time); // Create a new app element
+
+                dailyAppData.push({
+                    name: name,
+                    path: path,
+                    upTime: time,
+                    icon: iconPath
+                });
+
+                processTime[name] = element[1].upTime; // Set process time for the app
+                timestamp[name] = (new Date().getTime() - element[1].upTime); // Set timestamp for the app
+            }
         });
     }
 
@@ -120,8 +130,8 @@ async function displayApps() {
             screenTimeAppUptime+=1000; // Increment the screen time app uptime
 
             // Save the daily app data every 120 seconds
-            if (screenTimeAppUptime % 120 == 0) {            
-                await window.electronAPI.saveData(dailyAppData); // Save the data using Electron API
+            if (screenTimeAppUptime % 5000 == 0) {            
+                await window.electronAPI.saveData(dailyAppData, screenTimeAppUptime); // Save the data using Electron API
             }
 
             const app = await window.electronAPI.getApps(); // Get the active apps using Electron API
@@ -156,13 +166,21 @@ async function displayApps() {
             // Update the process time for the app
             processTime[appTitle] = processTime[appTitle] + (new Date().getTime() - timestamp[appTitle]);
             processTime[appTitle] = roundDown(processTime[appTitle], 3); // Round down the process time
-            console.log(processTime[appTitle]); // Log the process time
             
             formattedProcessTime[appTitle] = formatTime(processTime[appTitle]); // Format the process time
             updateApp(appTitle, formattedProcessTime[appTitle]); // Update the app time
 
             appData[appTitle] = activeWindow; // Update the app data
             appData[appTitle]["upTime"] = processTime[appTitle]; // Update the uptime for the app
+
+            if (dailyAppData.find((obj) => obj.name === "appUptime")) {
+                dailyAppData.find((obj) => obj.name === "appUptime").appUpTime = screenTimeAppUptime; // Update the app uptime
+            } else {
+                dailyAppData.push({
+                    name: "appUptime",
+                    appUpTime: screenTimeAppUptime
+                }); // Push the app uptime data to daily app data
+            }
 
             // Update or add the app data to the daily app data
             if (dailyAppData.find((obj) => obj.name === appTitle)) {

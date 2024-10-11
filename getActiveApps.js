@@ -28,7 +28,7 @@ function getApps() {
 }
 
 // Function to save data to a file
-function saveData(data) {
+function saveData(data, appUptime) {
     const date = new Date(); // Get the current date
     const stringDate = `${date.getDate()}${date.getMonth()+1}${date.getFullYear()}`; // Format the date as a string
 
