@@ -75,13 +75,13 @@ function roundDown(num, precision) {
 // Initialize app data and daily app data
 let appData = {};
 let dailyAppData = [];
+let screenTimeAppUptime = 1000; // Initialize screen time app uptime
 
 // Function to display active apps
 async function displayApps() {
     let timestamp = {}; // Initialize timestamp object
     let processTime = {}; // Initialize process time object
     let formattedProcessTime = {}; // Initialize formatted process time object
-    let screenTimeAppUptime = 0; // Initialize screen time app uptime
     
     // Load and display previously saved app data
     if (await window.electronAPI.loadData()) {
@@ -125,12 +125,10 @@ async function displayApps() {
 
     while (true) { // Infinite loop to continuously update the app data
         try {
-            const totalTimeCounter = document.getElementById('totalTime-time'); // Get the total time counter element
-            totalTimeCounter.innerText = formatTime(screenTimeAppUptime); // Update the total time counter with formatted time
-            screenTimeAppUptime+=1000; // Increment the screen time app uptime
+            
 
             // Save the daily app data every 120 seconds
-            if (screenTimeAppUptime % 5000 == 0) {            
+            if (screenTimeAppUptime % 120000 == 0) {            
                 await window.electronAPI.saveData(dailyAppData, screenTimeAppUptime); // Save the data using Electron API
             }
 
@@ -164,8 +162,15 @@ async function displayApps() {
             }
 
             // Update the process time for the app
-            processTime[appTitle] = processTime[appTitle] + (new Date().getTime() - timestamp[appTitle]);
-            processTime[appTitle] = roundDown(processTime[appTitle], 3); // Round down the process time
+
+            const totalTimeCounter = document.getElementById('totalTime-time'); // Get the total time counter element
+            totalTimeCounter.innerText = formatTime(screenTimeAppUptime); // Update the total time counter with formatted time
+            screenTimeAppUptime+=1000; // Increment the screen time app uptime
+
+            // processTime[appTitle] = processTime[appTitle] + (new Date().getTime() - timestamp[appTitle]);
+            // processTime[appTitle] = roundDown(processTime[appTitle], 3); // Round down the process time
+
+            processTime[appTitle] += 1000; // Update the process time for the app
             
             formattedProcessTime[appTitle] = formatTime(processTime[appTitle]); // Format the process time
             updateApp(appTitle, formattedProcessTime[appTitle]); // Update the app time
