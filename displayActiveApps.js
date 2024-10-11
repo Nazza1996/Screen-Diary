@@ -66,6 +66,12 @@ function updateApp(appTitle, time) {
     timeElement.textContent = time; // Update the text content of the time element
 }
 
+// Function to round down a number to a specified precision (1 for 10, 2 for 100, etc.)
+function roundDown(num, precision) {
+    const factor = Math.pow(10, precision); // Calculate the factor based on the precision
+    return Math.trunc(num / factor) * factor; // Round down the number to the specified precision and return it
+}
+
 // Initialize app data and daily app data
 let appData = {};
 let dailyAppData = [];
@@ -110,8 +116,8 @@ async function displayApps() {
     while (true) { // Infinite loop to continuously update the app data
         try {
             const totalTimeCounter = document.getElementById('totalTime-time'); // Get the total time counter element
-            totalTimeCounter.innerText = formatTime(screenTimeAppUptime * 1000); // Update the total time counter with formatted time
-            screenTimeAppUptime++; // Increment the screen time app uptime
+            totalTimeCounter.innerText = formatTime(screenTimeAppUptime); // Update the total time counter with formatted time
+            screenTimeAppUptime+=1000; // Increment the screen time app uptime
 
             // Save the daily app data every 120 seconds
             if (screenTimeAppUptime % 120 == 0) {            
@@ -149,6 +155,9 @@ async function displayApps() {
 
             // Update the process time for the app
             processTime[appTitle] = processTime[appTitle] + (new Date().getTime() - timestamp[appTitle]);
+            processTime[appTitle] = roundDown(processTime[appTitle], 3); // Round down the process time
+            console.log(processTime[appTitle]); // Log the process time
+            
             formattedProcessTime[appTitle] = formatTime(processTime[appTitle]); // Format the process time
             updateApp(appTitle, formattedProcessTime[appTitle]); // Update the app time
 
