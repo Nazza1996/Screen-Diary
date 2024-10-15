@@ -154,20 +154,24 @@
     </script>
 
     <script>
-        document.querySelectorAll('#accentColourSettings .colourCube').forEach(cube => {
+        document.querySelectorAll('.colourCube').forEach(cube => {
             cube.addEventListener('click', async () => {
-                const colour = cube.style.backgroundColor;
-                await window.electronAPI.setAccentColour(colour);
-                selectColours(colour);
+                const colour = cube.style.backgroundColor;               
+                if (cube.parentElement.parentElement.parentElement.id == 'accentColourSettings') {
+                    selectAccentColours(colour);
+                    await window.electronAPI.setAccentColour(colour);
+                } else {
+                    selectBackgroundColours(colour);
+                }
             });
         });
 
         document.addEventListener('DOMContentLoaded', async () => {
             const accentColour = await window.electronAPI.getStoreValue('accentColour');
-            selectColours(accentColour);
+            selectAccentColours(accentColour);
         });
 
-        function selectColours(colour) {
+        function selectAccentColours(colour) {
             switch (colour) {
                 case 'red':
                     document.documentElement.style.setProperty('--primaryAccentColour', '#ff0022');

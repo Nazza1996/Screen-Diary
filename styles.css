@@ -1,13 +1,10 @@
 :root {
     --primaryAccentColour: #854fe8;
     --secondaryAccentColour: #854fe82c;
-    --primaryBackgroundColour: white;
-    --secondaryBackgroundColour: #ececec;
-    --textColour: black;
 }
 
 body {
-    background-color: var(--secondaryBackgroundColour);
+    background-color: #ececec;
     -webkit-app-region: drag;
     -webkit-user-select: none;
     user-select: none;
@@ -22,7 +19,7 @@ body {
     left: 0;
     width: 100%;
     height: 40px;
-    background-color: var(--secondaryBackgroundColour);
+    background-color: #ececec;
 
     -webkit-app-region: drag;
     -webkit-user-select: none;
@@ -41,7 +38,7 @@ body {
 
 .side-panel {
     position: fixed;
-    background-color: var(--secondaryBackgroundColour);
+    background-color: #ececec;
     width: 250px;
     height: calc(100% - 40px);
     bottom: 0px;
@@ -58,7 +55,7 @@ body {
     height: fit-content;
     padding: 10px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    background-color: var(--secondaryBackgroundColour);
+    background-color: #ececec;
     color: #505050;
     font-size: x-large;
     border-radius: 10px;
@@ -92,7 +89,7 @@ body {
     width: calc(100% - 250px);
     right: 0;
     bottom: 0;
-    background-color: var(--primaryBackgroundColour);
+    background-color: white;
     border-radius: 20px 0 0 0;
     overflow-y: auto;
 
@@ -119,12 +116,11 @@ body {
     flex-direction: row;
     padding: 10px 20px 10px 20px;
     transition: transform 0.5s ease;
-    color: var(--textColour);
 }
 
 .app:hover {
     outline-style: solid;
-    outline-color: var(--secondaryBackgroundColour);
+    outline-color: #ececec;
 }
 
 .appTime {
@@ -176,7 +172,6 @@ body {
     width: 20px;
     left: calc(50% - 20px);
     top: 10%;
-    color: var(--textColour);
 }
 
 #colours {
@@ -195,7 +190,7 @@ body {
 .colourCube {
     width: 40px;
     height: 40px;
-    border: var(--secondaryBackgroundColour) calc(30px * 0.2) solid;
+    border: #ececec calc(30px * 0.2) solid;
     margin-right: 10px;
     border-radius: 15px;
     cursor: pointer;
