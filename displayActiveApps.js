@@ -79,7 +79,6 @@ let screenTimeAppUptime = 1000; // Initialize screen time app uptime
 
 // Function to display active apps
 async function displayApps() {
-    let timestamp = {}; // Initialize timestamp object
     let processTime = {}; // Initialize process time object
     let formattedProcessTime = {}; // Initialize formatted process time object
     
@@ -110,7 +109,6 @@ async function displayApps() {
                 });
 
                 processTime[name] = element[1].upTime; // Set process time for the app
-                timestamp[name] = (new Date().getTime() - element[1].upTime); // Set timestamp for the app
             }
         });
     }
@@ -125,8 +123,24 @@ async function displayApps() {
 
     while (true) { // Infinite loop to continuously update the app data
         try {
-            
 
+            const date = new Date(); // Get the current date and time
+            if (date.getHours() == 0 && date.getMinutes() == 0 && date.getSeconds() == 0) { // Check if it's midnight
+                await window.electronAPI.saveData(dailyAppData, screenTimeAppUptime); // Save the data using Electron API
+                appData = {}; // Clear the app data
+                dailyAppData = []; // Clear the daily app data
+                processTime = {}; // Clear the process time object
+                formattedProcessTime = {}; // Clear the formatted process time object
+                screenTimeAppUptime = 1000; // Reset the screen time app uptime
+                document.querySelectorAll('#appsContainer .app').forEach(app => {
+                    if (app.id != 'totalRuntime') {
+                        app.remove(); // Remove all app elements except the total runtime element
+                    } else {
+                        app.querySelector('.appTime').textContent = '1s'; // Reset the total runtime to 0s
+                    }
+                })
+            }
+            
             // Save the daily app data every 120 seconds
             if (screenTimeAppUptime % 120000 == 0) {            
                 await window.electronAPI.saveData(dailyAppData, screenTimeAppUptime); // Save the data using Electron API
@@ -145,7 +159,7 @@ async function displayApps() {
             let appTitle = activeWindow.owner.name; // Get the application title
             appTitle = appTitle.replace('.exe', ''); // Remove the '.exe' extension from the title
 
-            timestamp[appTitle] = new Date().getTime(); // Update the timestamp for the application
+            // timestamp[appTitle] = new Date().getTime(); // Update the timestamp for the application
             await delay(1000); // Wait for 1 second
 
             // If the app is not already being tracked, create a new app element
@@ -166,9 +180,6 @@ async function displayApps() {
             const totalTimeCounter = document.getElementById('totalTime-time'); // Get the total time counter element
             totalTimeCounter.innerText = formatTime(screenTimeAppUptime); // Update the total time counter with formatted time
             screenTimeAppUptime+=1000; // Increment the screen time app uptime
-
-            // processTime[appTitle] = processTime[appTitle] + (new Date().getTime() - timestamp[appTitle]);
-            // processTime[appTitle] = roundDown(processTime[appTitle], 3); // Round down the process time
 
             processTime[appTitle] += 1000; // Update the process time for the app
             
