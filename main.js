@@ -142,3 +142,11 @@ ipcMain.handle('get-settings', async () => {
         resolve(initializeSettings()); // Initialize and return the settings
     });
 });
+
+ipcMain.handle('set-accent-colour', async (event, colour) => {
+    store.set('accentColour', colour); // Set the accent colour
+});
+
+ipcMain.handle('get-store-value', async (event, key) => {
+    return store.get(key); // Get the value from the store
+});

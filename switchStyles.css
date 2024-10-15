@@ -1,3 +1,7 @@
+/* :root {
+    --primaryAccentColour: #854fe8;
+} */
+
 /* The switch - the box around the slider */
 .switch {
     font-size: 17px;
@@ -27,7 +31,7 @@
     border-radius: 50px;
     outline-style: solid;
     outline-width: 3px;
-    outline-color: #854fe8;
+    outline-color: var(--primaryAccentColour);
     transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
     transition: outline-width 0.05s ease;
 }
@@ -46,12 +50,12 @@
 }
   
 .switch input:checked + .slider {
-    background: #854fe8;
+    background: var(--primaryAccentColour);
     outline-width: 0;
 }
   
 .switch input:focus + .slider {
-    box-shadow: 0 0 1px #854fe8;
+    box-shadow: 0 0 1px var(--primaryAccentColour);
 }
   
 .switch input:checked + .slider:before {

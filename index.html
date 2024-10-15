@@ -48,6 +48,8 @@
     <section id="settings" class="main">
         <div class="settingsContainer">
             <p class="settingsTitle">Settings</p>
+
+            <!-- GENERAL SETTINGS -->
             <p class="settingsSubTitle">GENERAL</p>
 
             <div class="setting"><p>Run on System Start Up</p>
@@ -72,6 +74,29 @@
                 </label>
                 <p class="settingsDescription">Closing Main Window Minimises to the System Tray</p>
             </div>
+
+            <!-- CUSTOMISATION SETTINGS -->
+            <p class="settingsSubTitle">CUSTOMISATION</p>
+            
+            <div id="colourSettings">
+                <div id="accentColourSettings" class="setting"><p>Accent Colour</p>
+                    <div id="colours">
+                        <div class="colourRow">
+                            <div class="colourCube" style="background-color: red;"></div>
+                            <div class="colourCube" style="background-color: blue;"></div>
+                            <div class="colourCube" style="background-color: green;"></div>
+                            <div class="colourCube" style="background-color: yellow;"></div>
+                        </div>
+                        <div class="colourRow">
+                            <div class="colourCube" style="background-color: purple;"></div>
+                            <div class="colourCube" style="background-color: orange;"></div>
+                            <div class="colourCube" style="background-color: pink;"></div>
+                            <div class="colourCube" style="background-color: brown;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -120,6 +145,68 @@
                 
                 case 'closeToTray':
                     window.electronAPI.toggleCloseToTray();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    </script>
+
+    <script>
+        document.querySelectorAll('#accentColourSettings .colourCube').forEach(cube => {
+            cube.addEventListener('click', async () => {
+                const colour = cube.style.backgroundColor;
+                await window.electronAPI.setAccentColour(colour);
+                selectColours(colour);
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const accentColour = await window.electronAPI.getStoreValue('accentColour');
+            selectColours(accentColour);
+        });
+
+        function selectColours(colour) {
+            switch (colour) {
+                case 'red':
+                    document.documentElement.style.setProperty('--primaryAccentColour', '#ff0022');
+                    document.documentElement.style.setProperty('--secondaryAccentColour', '#ff00222c');
+                    break;
+
+                case 'blue':
+                    document.documentElement.style.setProperty('--primaryAccentColour', '#0059ff');
+                    document.documentElement.style.setProperty('--secondaryAccentColour', '#0059ff2c');
+                    break;
+
+                case 'green':
+                    document.documentElement.style.setProperty('--primaryAccentColour', '#00a841');
+                    document.documentElement.style.setProperty('--secondaryAccentColour', '#00a8412c');
+                    break;
+
+                case 'yellow':
+                    document.documentElement.style.setProperty('--primaryAccentColour', '#ebb813');
+                    document.documentElement.style.setProperty('--secondaryAccentColour', '#ebb8132c');
+                    break;
+
+                case 'purple':
+                    document.documentElement.style.setProperty('--primaryAccentColour', '#854fe8');
+                    document.documentElement.style.setProperty('--secondaryAccentColour', '#854fe82c');
+                    break;
+
+                case 'orange':
+                    document.documentElement.style.setProperty('--primaryAccentColour', '#f18d1a');
+                    document.documentElement.style.setProperty('--secondaryAccentColour', '#f18d1a2c');
+                    break;
+
+                case 'pink':
+                    document.documentElement.style.setProperty('--primaryAccentColour', '#ee80e5');
+                    document.documentElement.style.setProperty('--secondaryAccentColour', '#ee80e52c');
+                    break;
+
+                case 'brown':
+                    document.documentElement.style.setProperty('--primaryAccentColour', '#973c00');
+                    document.documentElement.style.setProperty('--secondaryAccentColour', '#973c002c');
                     break;
 
                 default:

@@ -1,5 +1,13 @@
+:root {
+    --primaryAccentColour: #854fe8;
+    --secondaryAccentColour: #854fe82c;
+    --primaryBackgroundColour: white;
+    --secondaryBackgroundColour: #ececec;
+    --textColour: black;
+}
+
 body {
-    background-color: #ececec;
+    background-color: var(--secondaryBackgroundColour);
     -webkit-app-region: drag;
     -webkit-user-select: none;
     user-select: none;
@@ -14,7 +22,7 @@ body {
     left: 0;
     width: 100%;
     height: 40px;
-    background-color: #ececec;
+    background-color: var(--secondaryBackgroundColour);
 
     -webkit-app-region: drag;
     -webkit-user-select: none;
@@ -28,12 +36,12 @@ body {
     font-size: 15px;
     left: 10px;
     top: -10px;
-    color: #854fe8;
+    color: var(--primaryAccentColour);
 }
 
 .side-panel {
     position: fixed;
-    background-color: #ececec;
+    background-color: var(--secondaryBackgroundColour);
     width: 250px;
     height: calc(100% - 40px);
     bottom: 0px;
@@ -50,7 +58,7 @@ body {
     height: fit-content;
     padding: 10px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    background-color: #ececec;
+    background-color: var(--secondaryBackgroundColour);
     color: #505050;
     font-size: x-large;
     border-radius: 10px;
@@ -60,7 +68,7 @@ body {
 }
 
 .side-panel .button:focus {
-    outline: 2px solid #854fe8; 
+    outline: 2px solid var(--primaryAccentColour); 
 }
 
 .side-panel .button:hover {
@@ -74,8 +82,8 @@ body {
 }
 
 .side-panel .button.clicked {
-    background-color: #854fe82c;
-    color: #854fe8;
+    background-color: var(--secondaryAccentColour);
+    color: var(--primaryAccentColour);
 }
 
 .main {
@@ -84,7 +92,7 @@ body {
     width: calc(100% - 250px);
     right: 0;
     bottom: 0;
-    background-color: white;
+    background-color: var(--primaryBackgroundColour);
     border-radius: 20px 0 0 0;
     overflow-y: auto;
 
@@ -111,11 +119,12 @@ body {
     flex-direction: row;
     padding: 10px 20px 10px 20px;
     transition: transform 0.5s ease;
+    color: var(--textColour);
 }
 
 .app:hover {
     outline-style: solid;
-    outline-color: #ececec;
+    outline-color: var(--secondaryBackgroundColour);
 }
 
 .appTime {
@@ -143,6 +152,8 @@ body {
 .settingsSubTitle {
     font-size: 15px;
     font-weight: bold;
+    margin-top: 35px;
+    margin-bottom: -5px;
 }
 
 .setting {
@@ -161,8 +172,40 @@ body {
 }
 
 #loadingText {
-    position: absolute;
+    position: relative;
     width: 20px;
     left: calc(50% - 20px);
     top: 10%;
+    color: var(--textColour);
+}
+
+#colours {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    margin-top: 70px;
+}
+
+.colourRow {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+}
+
+.colourCube {
+    width: 40px;
+    height: 40px;
+    border: var(--secondaryBackgroundColour) calc(30px * 0.2) solid;
+    margin-right: 10px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+#colourSettings {
+    display: flex;
+    flex-direction: row;
+}
+
+#backgroundColourSetting {
+    margin-left: 250px;
 }

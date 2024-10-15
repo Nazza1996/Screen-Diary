@@ -10,5 +10,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     toggleRunOnStartup: async () => ipcRenderer.invoke('toggle-run-on-startup'),
     toggleStartMinimised: () => ipcRenderer.invoke('toggle-start-minimised'),
     toggleCloseToTray: () => ipcRenderer.invoke('toggle-close-to-tray'),
-    getSettings: async () => ipcRenderer.invoke('get-settings')
+    getSettings: async () => ipcRenderer.invoke('get-settings'),
+    setAccentColour: async (colour) => ipcRenderer.invoke('set-accent-colour', colour),
+    getStoreValue: (key) => ipcRenderer.invoke('get-store-value', key)
 });
