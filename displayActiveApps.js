@@ -125,7 +125,8 @@ async function displayApps() {
         try {
 
             const date = new Date(); // Get the current date and time
-            if (date.getHours() == 0 && date.getMinutes() == 0 && date.getSeconds() == 0) { // Check if it's midnight
+
+            if (date.getHours() == 23 && date.getMinutes() == 59 && date.getSeconds() == 59) { // Check if it's midnight
                 await window.electronAPI.saveData(dailyAppData, screenTimeAppUptime); // Save the data using Electron API
                 appData = {}; // Clear the app data
                 dailyAppData = []; // Clear the daily app data
