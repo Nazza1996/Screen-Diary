@@ -62,7 +62,7 @@ function toggleCloseToTray() {
 
 app.whenReady().then(() => {
     setTimeout(() => {
-        const win = BrowserWindow.getFocusedWindow(); // Get the focused window
+        const win = BrowserWindow.getAllWindows()[0]; // Get the focused window
         win.on('close', function (event) {
             if (store.get('closeToTray') == true) {
                 event.preventDefault(); // Prevent the default window close action
