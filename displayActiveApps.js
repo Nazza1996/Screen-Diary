@@ -127,7 +127,7 @@ async function displayApps() {
             const date = new Date(); // Get the current date and time
 
             if (date.getHours() == 23 && date.getMinutes() == 59 && date.getSeconds() == 59) { // Check if it's midnight
-                await window.electronAPI.saveData(dailyAppData, screenTimeAppUptime); // Save the data using Electron API
+                await window.electronAPI.saveData(dailyAppData); // Save the data using Electron API
                 appData = {}; // Clear the app data
                 dailyAppData = []; // Clear the daily app data
                 processTime = {}; // Clear the process time object
@@ -144,7 +144,7 @@ async function displayApps() {
             
             // Save the daily app data every 120 seconds
             if (screenTimeAppUptime % 120000 == 0) {            
-                await window.electronAPI.saveData(dailyAppData, screenTimeAppUptime); // Save the data using Electron API
+                await window.electronAPI.saveData(dailyAppData); // Save the data using Electron API
             }
 
             const app = await window.electronAPI.getApps(); // Get the active apps using Electron API

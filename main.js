@@ -70,14 +70,6 @@ function createWindow() {
     
     win.loadFile('./index.html'); // Load the main HTML file
 
-    // Handle window close event
-    win.on('close', function (event) {
-        if (store.get('closeToTray') == true) {
-            event.preventDefault(); // Prevent default close behavior
-            win.hide(); // Hide the window instead of closing
-        }
-    });
-
     // Handle window close event for non-macOS platforms
     win.on('close', () => {
         if (process.platform !== 'darwin') {

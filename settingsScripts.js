@@ -3,6 +3,7 @@ const os = require('os'); // Import Node.js os module
 const ws = require('windows-shortcuts'); // Import windows-shortcuts module
 const fs = require('fs'); // Import Node.js file system module
 const Store = require('electron-store'); // Import electron-store module
+const { app, BrowserWindow } = require('electron');
 
 const store = new Store(); // Initialize electron-store
 
@@ -58,6 +59,18 @@ function toggleStartMinimised() {
 function toggleCloseToTray() {
     store.set('closeToTray', !store.get('closeToTray')); // Toggle the close to tray setting
 }
+
+app.whenReady().then(() => {
+    setTimeout(() => {
+        const win = BrowserWindow.getFocusedWindow(); // Get the focused window
+        win.on('close', function (event) {
+            if (store.get('closeToTray') == true) {
+                event.preventDefault(); // Prevent the default window close action
+                win.hide(); // Hide the window
+            }
+        });
+    }, 1000);
+});
 
 // Export the functions for use in other modules
 module.exports = { toggleRunOnStartup, initializeSettings, toggleStartMinimised, toggleCloseToTray };
