@@ -150,6 +150,10 @@ async function displayApps() {
             const app = await window.electronAPI.getApps(); // Get the active apps using Electron API
             const activeWindow = app.activeWindow; // Get the active window details
 
+            const totalTimeCounter = document.getElementById('totalTime-time'); // Get the total time counter element
+            totalTimeCounter.innerText = formatTime(screenTimeAppUptime); // Update the total time counter with formatted time
+            screenTimeAppUptime+=1000; // Increment the screen time app uptime
+
             // Skip if the active window title is null or empty
             if (activeWindow.title == null || activeWindow.title == "") {
                 console.log("Skipping"); // Log skipping message
@@ -175,13 +179,7 @@ async function displayApps() {
                 iconElement.src = null; // Clear the current icon source
                 iconElement.src = app.iconPath; // Set the new icon source
             }
-
-            // Update the process time for the app
-
-            const totalTimeCounter = document.getElementById('totalTime-time'); // Get the total time counter element
-            totalTimeCounter.innerText = formatTime(screenTimeAppUptime); // Update the total time counter with formatted time
-            screenTimeAppUptime+=1000; // Increment the screen time app uptime
-
+        
             processTime[appTitle] += 1000; // Update the process time for the app
             
             formattedProcessTime[appTitle] = formatTime(processTime[appTitle]); // Format the process time
