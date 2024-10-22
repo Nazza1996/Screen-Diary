@@ -96,7 +96,14 @@
                     </div>
                 </div>
             </div>
-
+            
+            <p id="advancedSettings" class="settingsSubTitle">ADVANCED</p>
+            <div class="setting"><p>Export Settings</p>
+                <button class="settingsButton" onclick="window.electronAPI.exportSettings()">Export</button>
+            </div>
+            <div class="setting"><p>Clear Icon Cache</p>
+                <button class="settingsButton red" onClick="popup('Are you sure you want to clear the icon cache?', 'Clear Icon Cache', () => {window.electronAPI.clearIconCache()})">Clear Icon Cache</button>
+            </div>
         </div>
     </section>
 
@@ -216,6 +223,36 @@
                 default:
                     break;
             }
+        }
+    </script>
+
+    <script>
+        function popup(message, buttonText, buttonFunction) {
+            const popup = document.createElement('div');
+            popup.classList.add('popup');
+            popup.innerHTML = `
+                <p class="popupMessage">${message}</p>
+                <div class="popupButtonContainer">
+                    <button id="popupCancel" class="popupButton">Cancel</button>
+                    <button id="popupContinue" class="popupButton red">${buttonText}</button>
+                </div>
+            `;
+            document.body.style.pointerEvents = 'none';
+            document.body.appendChild(popup).style.pointerEvents = 'auto';
+
+            const cancelButton = document.querySelector('#popupCancel');
+            cancelButton.addEventListener('click', () => {
+                popup.remove();
+                document.body.style.pointerEvents = 'auto';
+            });
+
+            const popupButton = document.querySelector('#popupContinue');
+            popupButton.addEventListener('click', () => {
+                buttonFunction();
+                popup.remove();
+                document.body.style.pointerEvents = 'auto';
+            });
+
         }
     </script>
 

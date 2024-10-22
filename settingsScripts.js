@@ -3,7 +3,7 @@ const os = require('os'); // Import Node.js os module
 const ws = require('windows-shortcuts'); // Import windows-shortcuts module
 const fs = require('fs'); // Import Node.js file system module
 const Store = require('electron-store'); // Import electron-store module
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, dialog } = require('electron');
 
 const store = new Store(); // Initialize electron-store
 
@@ -72,5 +72,26 @@ app.whenReady().then(() => {
     }, 1000);
 });
 
+function exportSettings() {
+    dialog.showSaveDialog({
+        title: 'Export Settings',
+        defaultPath: path.join(os.homedir(), `Screen Diary Settings ${new Date().toISOString().replaceAll(':', '-')}.json`),
+        filters: [{ name: 'JSON', extensions: ['json'] }],
+    }).then(result => {
+        if (!result.canceled) {
+            fs.writeFileSync(result.filePath, JSON.stringify(store.store, null, 4));
+        }
+    }).catch(err => {
+        console.log(err);
+    });   
+}
+
+function clearIconCache() {
+    const iconPath = path.join(app.getPath('userData'), '/Icons');
+    if (fs.existsSync(iconPath)) {
+        fs.rmSync(iconPath, { recursive: true});
+    }
+}
+
 // Export the functions for use in other modules
-module.exports = { toggleRunOnStartup, initializeSettings, toggleStartMinimised, toggleCloseToTray };
+module.exports = { toggleRunOnStartup, initializeSettings, toggleStartMinimised, toggleCloseToTray, exportSettings, clearIconCache };

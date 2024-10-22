@@ -12,5 +12,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
     toggleCloseToTray: () => ipcRenderer.invoke('toggle-close-to-tray'),
     getSettings: async () => ipcRenderer.invoke('get-settings'),
     setAccentColour: async (colour) => ipcRenderer.invoke('set-accent-colour', colour),
-    getStoreValue: (key) => ipcRenderer.invoke('get-store-value', key)
+    getStoreValue: (key) => ipcRenderer.invoke('get-store-value', key),
+
+    exportSettings: async () => ipcRenderer.invoke('export-settings'),
+    clearIconCache: async () => ipcRenderer.invoke('clear-icon-cache')
 });

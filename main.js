@@ -1,7 +1,9 @@
 const { app, BrowserWindow, ipcMain, Menu, Tray, contentTracing } = require('electron'); // Import Electron modules
 const path = require('path'); // Import Node.js path module
 const { getApps, saveData, loadData, ifImageExists } = require('./getActiveApps.js'); // Import functions from getActiveApps.js
-const { toggleRunOnStartup, toggleStartMinimised, initializeSettings, toggleCloseToTray } = require('./settingsScripts.js'); // Import functions from settingsScripts.js
+const { toggleRunOnStartup, toggleStartMinimised, initializeSettings, toggleCloseToTray,
+    exportSettings, clearIconCache
+} = require('./settingsScripts.js'); // Import functions from settingsScripts.js
 const Store = require('electron-store'); // Import electron-store module
 
 let win = null; // Initialize the main window variable
@@ -141,4 +143,12 @@ ipcMain.handle('set-accent-colour', async (event, colour) => {
 
 ipcMain.handle('get-store-value', async (event, key) => {
     return store.get(key); // Get the value from the store
+});
+
+ipcMain.handle('export-settings', async (event) => {
+    return await exportSettings(); // Export the settings
+});
+
+ipcMain.handle('clear-icon-cache', async (event) => {
+    return clearIconCache(); // Export the settings
 });

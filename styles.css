@@ -83,6 +83,62 @@ body {
     color: var(--primaryAccentColour);
 }
 
+.popup {
+    position: fixed;
+
+    height: fit-content;
+    width: fit-content;
+
+    background-color: #ececec;
+    z-index: 2;
+
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    padding: 10px;
+
+    border-radius: 20px;
+    outline: solid rgba(0, 0, 0, 0.575);
+    outline-width: 400vw;
+}
+
+.popupButtonContainer {
+    width: max-content;
+
+    margin-left: 100%;
+    transform: translateX(-100%);
+
+    margin-top: 30px;
+}
+
+.popupButton {
+    width: 125px;
+    height: 35px;
+    border-radius: 10px;
+    border: var(--primaryAccentColour) 2px solid;
+}
+
+.popupButton:hover {
+    color: white;
+    background-color: var(--primaryAccentColour);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+}
+
+.popupButton.red {
+    border: rgb(218, 55, 60) 2px solid;
+}
+
+.popupButton.red:hover {
+    background-color: rgb(218, 55, 60);
+}
+
+.popupMessage {
+    max-width: 40vw;
+    text-align: center;
+}
+
 .main {
     position: fixed;
     height: calc(100% - 40px);
@@ -203,4 +259,32 @@ body {
 
 #backgroundColourSetting {
     margin-left: 250px;
+}
+
+#advancedSettings {
+    margin-top: 155px;
+}
+
+.settingsButton {
+    margin-left: auto;
+    width: 125px;
+    height: 50px;
+    align-self: center;
+    border: var(--primaryAccentColour) 2px solid;
+    border-radius: 10px;
+}
+
+.settingsButton:hover {
+    color: white;
+    background-color: var(--primaryAccentColour);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+}
+
+.settingsButton.red {
+    border: rgb(218, 55, 60) 2px solid;
+}
+
+.settingsButton.red:hover {
+    background-color: rgb(218, 55, 60);
 }
