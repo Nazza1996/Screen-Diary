@@ -93,5 +93,14 @@ function clearIconCache() {
     }
 }
 
+function factoryReset() {
+    if (store.get('runOnStartup') == true) {
+        toggleRunOnStartup(); // Toggle the run on startup setting
+    }
+    store.clear(); // Clear all settings
+    app.relaunch(); // Reload the window
+    app.exit(); // Exit the application to apply changes and relaunch
+}
+
 // Export the functions for use in other modules
-module.exports = { toggleRunOnStartup, initializeSettings, toggleStartMinimised, toggleCloseToTray, exportSettings, clearIconCache };
+module.exports = { toggleRunOnStartup, initializeSettings, toggleStartMinimised, toggleCloseToTray, exportSettings, clearIconCache, factoryReset };

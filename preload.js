@@ -15,5 +15,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     getStoreValue: (key) => ipcRenderer.invoke('get-store-value', key),
 
     exportSettings: async () => ipcRenderer.invoke('export-settings'),
-    clearIconCache: async () => ipcRenderer.invoke('clear-icon-cache')
+    clearIconCache: async () => ipcRenderer.invoke('clear-icon-cache'),
+    factoryReset: () => ipcRenderer.invoke('factory-reset')
 });
