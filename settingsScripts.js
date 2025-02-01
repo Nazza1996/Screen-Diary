@@ -86,6 +86,28 @@ function exportSettings() {
     });   
 }
 
+function importSettings() {
+    dialog.showOpenDialog({
+        title: 'Import Settings',
+        filters: [{ name: 'JSON', extensions: ['json'] }],
+        properties: ['openFile'],
+    }).then(result => {
+        if (!result.canceled) {
+            const data = JSON.parse(fs.readFileSync(result.filePaths[0]));
+            // Check if data contains the required settings
+            if (data.hasOwnProperty('runOnStartup') && data.hasOwnProperty('startMinimised') && data.hasOwnProperty('closeToTray')) {
+                store.store = data;
+                app.relaunch(); // Reload the window
+                app.exit(); // Exit the application to apply changes and relaunch
+            } else {
+                dialog.showErrorBox('Invalid Settings', 'The selected file does not contain valid settings for this application.');
+            }
+        }
+    }).catch(err => {
+        console.log(err);
+    });  
+}
+
 function clearIconCache() {
     const iconPath = path.join(app.getPath('userData'), '/Icons');
     if (fs.existsSync(iconPath)) {
@@ -112,4 +134,4 @@ function clearHistory() {
 }
 
 // Export the functions for use in other modules
-module.exports = { toggleRunOnStartup, initializeSettings, toggleStartMinimised, toggleCloseToTray, exportSettings, clearIconCache, factoryReset, clearHistory };
+module.exports = { toggleRunOnStartup, initializeSettings, toggleStartMinimised, toggleCloseToTray, exportSettings, importSettings, clearIconCache, factoryReset, clearHistory };

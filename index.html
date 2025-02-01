@@ -102,6 +102,10 @@
                 <button class="settingsButton" onclick="window.electronAPI.exportSettings()">Export</button>
                 <p class="settingsDescription">Download a backup of all your settings.</p>
             </div>
+            <div class="setting"><p>Import Settings</p>
+                <button class="settingsButton" onclick="window.electronAPI.importSettings()">Import</button>
+                <p class="settingsDescription">Restore settings from a previous backup.</p>
+            </div>
             <div class="setting"><p>Delete All History</p>
                 <button class="settingsButton red" onclick="popup('Are you sure you want to clear your usage history?<br><br><strong>This action cannot be undone.</strong>', 'Delete History', () => {window.electronAPI.clearHistory()})">Delete History</button>
                 <p class="settingsDescription">Reset and delete all of you usage history.</p>
