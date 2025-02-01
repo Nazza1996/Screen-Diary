@@ -16,5 +16,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
     exportSettings: async () => ipcRenderer.invoke('export-settings'),
     clearIconCache: async () => ipcRenderer.invoke('clear-icon-cache'),
-    factoryReset: () => ipcRenderer.invoke('factory-reset')
+    factoryReset: () => ipcRenderer.invoke('factory-reset'),
+    clearHistory: () => ipcRenderer.invoke('clear-history'),
 });

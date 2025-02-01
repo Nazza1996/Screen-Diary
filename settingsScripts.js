@@ -102,5 +102,14 @@ function factoryReset() {
     app.exit(); // Exit the application to apply changes and relaunch
 }
 
+function clearHistory() {
+    const historyPath = path.join(app.getPath('userData'), '/Save Data');
+    if (fs.existsSync(historyPath)) {
+        fs.rmSync(historyPath, { recursive: true});
+    }
+    app.relaunch(); // Reload the window
+    app.exit(); // Exit the application to apply changes and relaunch
+}
+
 // Export the functions for use in other modules
-module.exports = { toggleRunOnStartup, initializeSettings, toggleStartMinimised, toggleCloseToTray, exportSettings, clearIconCache, factoryReset };
+module.exports = { toggleRunOnStartup, initializeSettings, toggleStartMinimised, toggleCloseToTray, exportSettings, clearIconCache, factoryReset, clearHistory };

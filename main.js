@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain, Menu, Tray, contentTracing } = require('ele
 const path = require('path'); // Import Node.js path module
 const { getApps, saveData, loadData, ifImageExists } = require('./getActiveApps.js'); // Import functions from getActiveApps.js
 const { toggleRunOnStartup, toggleStartMinimised, initializeSettings, toggleCloseToTray,
-    exportSettings, clearIconCache, factoryReset
+    exportSettings, clearIconCache, factoryReset, clearHistory
 } = require('./settingsScripts.js'); // Import functions from settingsScripts.js
 const Store = require('electron-store'); // Import electron-store module
 
@@ -155,4 +155,8 @@ ipcMain.handle('clear-icon-cache', async (event) => {
 
 ipcMain.handle('factory-reset', () => {
     return factoryReset(); // Factory reset the application
+});
+
+ipcMain.handle('clear-history', () => {
+    return clearHistory(); // Clear the history
 });

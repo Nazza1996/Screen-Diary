@@ -102,6 +102,10 @@
                 <button class="settingsButton" onclick="window.electronAPI.exportSettings()">Export</button>
                 <p class="settingsDescription">Download a backup of all your settings.</p>
             </div>
+            <div class="setting"><p>Delete All History</p>
+                <button class="settingsButton red" onclick="popup('Are you sure you want to clear your usage history?<br><br><strong>This action cannot be undone.</strong>', 'Delete History', () => {window.electronAPI.clearHistory()})">Delete History</button>
+                <p class="settingsDescription">Reset and delete all of you usage history.</p>
+            </div>
             <div class="setting"><p>Clear Icon Cache</p>
                 <button class="settingsButton red" onClick="popup('Are you sure you want to clear the icon cache? <br><br> Icons will only reappear once their corresponding apps are focused again.', 'Clear Icon Cache', () => {window.electronAPI.clearIconCache()})">Clear Icon Cache</button>
                 <p class="settingsDescription">Clear all saved icons.</p>
