@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, Menu, Tray, contentTracing } = require('electron'); // Import Electron modules
+const { app, BrowserWindow, ipcMain, Menu, Tray, contentTracing, dialog } = require('electron'); // Import Electron modules
 const path = require('path'); // Import Node.js path module
 const { getApps, saveData, loadData, ifImageExists } = require('./getActiveApps.js'); // Import functions from getActiveApps.js
 const { toggleRunOnStartup, toggleStartMinimised, initializeSettings, toggleCloseToTray,
@@ -52,12 +52,31 @@ function createWindow() {
         }},
         {type: 'separator'},
         {label: 'Quit', click: () => {
-            win.webContents.send('request-variable-from-renderer'); // Request variable from renderer
-            setTimeout(() => {
-                saveData(currentAppData); // Save the current app data
-                win.destroy(); // Destroy the window
-                app.quit(); // Quit the application
-            }, 1000); // Delay to ensure data is saved
+
+            dialog.showMessageBox(win, {
+                type: 'question',
+                buttons: ['Quit Screen Diary', 'Run Screen Diary in the Background', 'Cancel'],
+                title: 'Quit Screen Diary',
+                message: 'Are you sure you want to quit Screen Diary?',
+                detail: 'If you quit Screen Diary, you will not be able to track your usage. Running Screen Diary in the background will continue to track your usage.\n\nYour data will be saved before quitting.',
+                detailType: 'info',
+                icon: path.join(__dirname, '/assets/icon.png')
+            }).then((result) => {
+                if (result.response === 0) {
+                    win.webContents.send('request-variable-from-renderer'); // Request variable from renderer
+                    win.hide();
+                    setTimeout(() => {
+                        saveData(currentAppData); // Save the current app data
+                        win.destroy(); // Destroy the window
+                        app.quit(); // Quit the application
+                    }, 1000); // Delay to ensure data is saved
+                } else if (result.response === 1) {
+                    const win = BrowserWindow.getAllWindows()[0]; // Get the focused window
+                    win.hide(); // Hide the window
+                } else {
+                    return; // Do nothing if the user cancels
+                }
+            });
         }}
     ]);
 
