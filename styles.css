@@ -267,6 +267,7 @@ body {
 
 .settingsButton {
     margin-left: auto;
+    margin-top: 45px;
     width: 125px;
     height: 50px;
     align-self: center;
