@@ -1,292 +1,417 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Screen Time App</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <link rel="stylesheet" type="text/css" href="switchStyles.css">
-</head>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link rel="stylesheet" type="text/css" href="switchStyles.css" />
+  </head>
 
-<div class="titleBar">
+  <div class="titleBar">
     <p class="titleBarText">Screen Diary</p>
-</div>
+  </div>
 
-<body>
-
+  <body>
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {      
-            const settings = new Array(await window.electronAPI.getSettings());
-            const runOnStartup = settings[0].runOnStartup;
-            const startMinimised = settings[0].startMinimised;
-            const closeToTray = settings[0].closeToTray;
+      document.addEventListener("DOMContentLoaded", async () => {
+        const settings = new Array(await window.electronAPI.getSettings());
+        const runOnStartup = settings[0].runOnStartup;
+        const startMinimised = settings[0].startMinimised;
+        const closeToTray = settings[0].closeToTray;
 
-            const runOnStartupSwitch = document.getElementById('runOnStartupSwitch').checked = runOnStartup;
-            const startInTraySwitch = document.getElementById('startInTraySwitch').checked = startMinimised;
-            const closeToTraySwitch = document.getElementById('closeToTraySwitch').checked = closeToTray;
+        const runOnStartupSwitch = (document.getElementById(
+          "runOnStartupSwitch"
+        ).checked = runOnStartup);
+        const startInTraySwitch = (document.getElementById(
+          "startInTraySwitch"
+        ).checked = startMinimised);
+        const closeToTraySwitch = (document.getElementById(
+          "closeToTraySwitch"
+        ).checked = closeToTray);
 
-            await displayApps();
-        });
+        await displayApps();
+      });
     </script>
 
     <section class="side-panel">
-        <button id="dashboardButton" class="button clicked" onclick="selectButton('dashboardButton'); switchView('dashboard')">Dashboard</button>
-        <button id="settingsButton" class="button" onclick="selectButton('settingsButton'); switchView('settings')">Settings</button>
+      <button
+        id="dashboardButton"
+        class="button clicked"
+        onclick="selectButton('dashboardButton'); switchView('dashboard')"
+      >
+        Dashboard
+      </button>
+      <button
+        id="settingsButton"
+        class="button"
+        onclick="selectButton('settingsButton'); switchView('settings')"
+      >
+        Settings
+      </button>
     </section>
 
     <section id="dashboard" class="main active">
-        <div id="loadingText">Loading...</div>
-        <div id="appsContainer" class="appsContainer" style="display: none;">
-            <div id="totalRuntime" class="app">
-                <img class="appIcon" src="assets/clock.png">
-                <p class="appTitle">Total Runtime</p>
-                <p class="appTime" id="totalTime-time">0s</p>
-            </div>
+      <div id="loadingText">Loading...</div>
+      <div id="appsContainer" class="appsContainer" style="display: none">
+        <div id="totalRuntime" class="app">
+          <img class="appIcon" src="assets/clock.png" />
+          <p class="appTitle">Total Runtime</p>
+          <p class="appTime" id="totalTime-time">0s</p>
         </div>
+      </div>
     </section>
 
     <section id="settings" class="main">
-        <div class="settingsContainer">
-            <p class="settingsTitle">Settings</p>
+      <div class="settingsContainer">
+        <p class="settingsTitle">Settings</p>
 
-            <!-- GENERAL SETTINGS -->
-            <p class="settingsSubTitle">GENERAL</p>
+        <!-- GENERAL SETTINGS -->
+        <p class="settingsSubTitle">GENERAL</p>
 
-            <div class="setting"><p>Run on System Start Up</p>
-                <label class="switch">
-                    <input id="runOnStartupSwitch" type="checkbox" onclick="toggleSettings('runOnSystemStart')">
-                    <span class="slider"></span>
-                </label>
-            </div>
-
-            <div class="setting"><p>Start in Tray</p>
-                <label class="switch">
-                    <input id="startInTraySwitch" type="checkbox" onclick="toggleSettings('startInTray')">
-                    <span class="slider"></span>
-                </label>
-                <p class="settingsDescription">Start App Minimised in the System Tray</p>
-            </div>
-
-            <div class="setting"><p>Close to Tray</p>
-                <label class="switch">
-                    <input id="closeToTraySwitch" type="checkbox" onclick="toggleSettings('closeToTray')">
-                    <span class="slider"></span>
-                </label>
-                <p class="settingsDescription">Closing Main Window Minimises to the<br>System Tray</p>
-            </div>
-            <br>
-
-            <!-- CUSTOMISATION SETTINGS -->
-            <p class="settingsSubTitle">CUSTOMISATION</p>
-            
-            <div id="colourSettings">
-                <div id="accentColourSettings" class="setting"><p>Accent Colour</p>
-                    <div id="colours">
-                        <div class="colourRow">
-                            <div class="colourCube" style="background-color: red;"></div>
-                            <div class="colourCube" style="background-color: blue;"></div>
-                            <div class="colourCube" style="background-color: green;"></div>
-                            <div class="colourCube" style="background-color: yellow;"></div>
-                        </div>
-                        <div class="colourRow">
-                            <div class="colourCube" style="background-color: purple;"></div>
-                            <div class="colourCube" style="background-color: orange;"></div>
-                            <div class="colourCube" style="background-color: pink;"></div>
-                            <div class="colourCube" style="background-color: brown;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <p id="advancedSettings" class="settingsSubTitle">ADVANCED</p>
-            <div class="setting"><p>Export Settings</p>
-                <button class="settingsButton" onclick="window.electronAPI.exportSettings()">Export</button>
-                <p class="settingsDescription">Download a backup of all your settings.</p>
-            </div>
-            <div class="setting"><p>Import Settings</p>
-                <button class="settingsButton" onclick="window.electronAPI.importSettings()">Import</button>
-                <p class="settingsDescription">Restore settings from a previous backup.</p>
-            </div>
-            <div class="setting"><p>Delete All History</p>
-                <button class="settingsButton red" onclick="popup('Are you sure you want to clear your usage history?<br><br><strong>This action cannot be undone.</strong>', 'Delete History', () => {window.electronAPI.clearHistory()})">Delete History</button>
-                <p class="settingsDescription">Reset and delete all of you usage history.</p>
-            </div>
-            <div class="setting"><p>Clear Icon Cache</p>
-                <button class="settingsButton red" onClick="popup('Are you sure you want to clear the icon cache?<br><br>Icons will only reappear once their corresponding apps are focused again.', 'Clear Icon Cache', clearCache)">Clear Icon Cache</button>
-                <p class="settingsDescription">Clear all saved icons.</p>
-            </div>
-            <div class="setting"><p>Factory Reset</p>
-                <button class="settingsButton red" onClick="popup('Are you sure you want to reset Screen Diary?<br><br><strong>This action cannot be undone.</strong>', 'Reset', () => {window.electronAPI.factoryReset()})">Reset</button>
-                <p class="settingsDescription">Reset all settings to default.</p>
-            </div>
-
-            <br><br>
-
+        <div class="setting">
+          <p>Run on System Start Up</p>
+          <label class="switch">
+            <input
+              id="runOnStartupSwitch"
+              type="checkbox"
+              onclick="toggleSettings('runOnSystemStart')"
+            />
+            <span class="slider"></span>
+          </label>
         </div>
+
+        <div class="setting">
+          <p>Start in Tray</p>
+          <label class="switch">
+            <input
+              id="startInTraySwitch"
+              type="checkbox"
+              onclick="toggleSettings('startInTray')"
+            />
+            <span class="slider"></span>
+          </label>
+          <p class="settingsDescription">
+            Start App Minimised in the System Tray
+          </p>
+        </div>
+
+        <div class="setting">
+          <p>Close to Tray</p>
+          <label class="switch">
+            <input
+              id="closeToTraySwitch"
+              type="checkbox"
+              onclick="toggleSettings('closeToTray')"
+            />
+            <span class="slider"></span>
+          </label>
+          <p class="settingsDescription">
+            Closing Main Window Minimises to the<br />System Tray
+          </p>
+        </div>
+        <br />
+
+        <!-- CUSTOMISATION SETTINGS -->
+        <p class="settingsSubTitle">CUSTOMISATION</p>
+
+        <div id="colourSettings">
+          <div id="accentColourSettings" class="setting">
+            <p>Accent Colour</p>
+            <div id="colours">
+              <div class="colourRow">
+                <div class="colourCube" style="background-color: red"></div>
+                <div class="colourCube" style="background-color: blue"></div>
+                <div class="colourCube" style="background-color: green"></div>
+                <div class="colourCube" style="background-color: yellow"></div>
+              </div>
+              <div class="colourRow">
+                <div class="colourCube" style="background-color: purple"></div>
+                <div class="colourCube" style="background-color: orange"></div>
+                <div class="colourCube" style="background-color: pink"></div>
+                <div class="colourCube" style="background-color: brown"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p id="advancedSettings" class="settingsSubTitle">ADVANCED</p>
+        <div class="setting">
+          <p>Export Settings</p>
+          <button
+            class="settingsButton"
+            onclick="window.electronAPI.exportSettings()"
+          >
+            Export
+          </button>
+          <p class="settingsDescription">
+            Download a backup of all your settings.
+          </p>
+        </div>
+        <div class="setting">
+          <p>Import Settings</p>
+          <button
+            class="settingsButton"
+            onclick="window.electronAPI.importSettings()"
+          >
+            Import
+          </button>
+          <p class="settingsDescription">
+            Restore settings from a previous backup.
+          </p>
+        </div>
+        <div class="setting">
+          <p>Delete All History</p>
+          <button
+            class="settingsButton red"
+            onclick="popup('Are you sure you want to clear your usage history?<br><br><strong>This action cannot be undone.</strong>', 'Delete History', () => {window.electronAPI.clearHistory()})"
+          >
+            Delete History
+          </button>
+          <p class="settingsDescription">
+            Reset and delete all of you usage history.
+          </p>
+        </div>
+        <div class="setting">
+          <p>Clear Icon Cache</p>
+          <button
+            class="settingsButton red"
+            onClick="popup('Are you sure you want to clear the icon cache?<br><br>Icons will only reappear once their corresponding apps are focused again.', 'Clear Icon Cache', clearCache)"
+          >
+            Clear Icon Cache
+          </button>
+          <p class="settingsDescription">Clear all saved icons.</p>
+        </div>
+        <div class="setting">
+          <p>Factory Reset</p>
+          <button
+            class="settingsButton red"
+            onClick="popup('Are you sure you want to reset Screen Diary?<br><br><strong>This action cannot be undone.</strong>', 'Reset', () => {window.electronAPI.factoryReset()})"
+          >
+            Reset
+          </button>
+          <p class="settingsDescription">Reset all settings to default.</p>
+        </div>
+
+        <br /><br />
+      </div>
     </section>
 
     <script>
-        function selectButton(buttonId) {
-            const currentClicked = document.querySelector('.side-panel .button.clicked');
-            const newClicked = document.getElementById(buttonId);
-            if (!newClicked.classList.contains('clicked')) {
-                if (currentClicked) {
-                    currentClicked.classList.remove('clicked');
-                }
-                newClicked.classList.add('clicked');
-            }
+      function selectButton(buttonId) {
+        const currentClicked = document.querySelector(
+          ".side-panel .button.clicked"
+        );
+        const newClicked = document.getElementById(buttonId);
+        if (!newClicked.classList.contains("clicked")) {
+          if (currentClicked) {
+            currentClicked.classList.remove("clicked");
+          }
+          newClicked.classList.add("clicked");
         }
+      }
     </script>
 
     <script>
-        function switchView(selectedView) {
-            const allViews = document.querySelectorAll('.main');
-            allViews.forEach(view => {
-                if (view.id == selectedView) {
-                    view.classList.add('active');
-                } else {
-                    view.classList.remove('active');
-                }
-            });
-        }
-    </script>
-
-    <script>
-        async function getSettings() {
-            console.log("Hey");
-            const settings = await window.electronAPI.getSettings();
-            console.log(settings);
-        }
-
-        async function toggleSettings(setting) {
-            switch (setting) {
-                case 'runOnSystemStart':
-                    await window.electronAPI.toggleRunOnStartup();
-                    break;
-                
-                case 'startInTray':
-                    window.electronAPI.toggleStartMinimised();
-                    break;
-                
-                case 'closeToTray':
-                    window.electronAPI.toggleCloseToTray();
-                    break;
-
-                default:
-                    break;
-            }
-        }
-    </script>
-
-    <script>
-        document.querySelectorAll('.colourCube').forEach(cube => {
-            cube.addEventListener('click', async () => {
-                const colour = cube.style.backgroundColor;               
-                if (cube.parentElement.parentElement.parentElement.id == 'accentColourSettings') {
-                    selectAccentColours(colour);
-                    await window.electronAPI.setAccentColour(colour);
-                } else {
-                    selectBackgroundColours(colour);
-                }
-            });
+      function switchView(selectedView) {
+        const allViews = document.querySelectorAll(".main");
+        allViews.forEach((view) => {
+          if (view.id == selectedView) {
+            view.classList.add("active");
+          } else {
+            view.classList.remove("active");
+          }
         });
-
-        document.addEventListener('DOMContentLoaded', async () => {
-            const accentColour = await window.electronAPI.getStoreValue('accentColour');
-            selectAccentColours(accentColour);
-        });
-
-        function selectAccentColours(colour) {
-            switch (colour) {
-                case 'red':
-                    document.documentElement.style.setProperty('--primaryAccentColour', '#ff0022');
-                    document.documentElement.style.setProperty('--secondaryAccentColour', '#ff00222c');
-                    break;
-
-                case 'blue':
-                    document.documentElement.style.setProperty('--primaryAccentColour', '#0059ff');
-                    document.documentElement.style.setProperty('--secondaryAccentColour', '#0059ff2c');
-                    break;
-
-                case 'green':
-                    document.documentElement.style.setProperty('--primaryAccentColour', '#00a841');
-                    document.documentElement.style.setProperty('--secondaryAccentColour', '#00a8412c');
-                    break;
-
-                case 'yellow':
-                    document.documentElement.style.setProperty('--primaryAccentColour', '#ebb813');
-                    document.documentElement.style.setProperty('--secondaryAccentColour', '#ebb8132c');
-                    break;
-
-                case 'purple':
-                    document.documentElement.style.setProperty('--primaryAccentColour', '#854fe8');
-                    document.documentElement.style.setProperty('--secondaryAccentColour', '#854fe82c');
-                    break;
-
-                case 'orange':
-                    document.documentElement.style.setProperty('--primaryAccentColour', '#f18d1a');
-                    document.documentElement.style.setProperty('--secondaryAccentColour', '#f18d1a2c');
-                    break;
-
-                case 'pink':
-                    document.documentElement.style.setProperty('--primaryAccentColour', '#ee80e5');
-                    document.documentElement.style.setProperty('--secondaryAccentColour', '#ee80e52c');
-                    break;
-
-                case 'brown':
-                    document.documentElement.style.setProperty('--primaryAccentColour', '#973c00');
-                    document.documentElement.style.setProperty('--secondaryAccentColour', '#973c002c');
-                    break;
-
-                default:
-                    break;
-            }
-        }
+      }
     </script>
 
     <script>
-        function popup(message, buttonText, buttonFunction) {
-            const popup = document.createElement('div');
-            popup.classList.add('popup');
-            popup.innerHTML = `
+      async function getSettings() {
+        console.log("Hey");
+        const settings = await window.electronAPI.getSettings();
+        console.log(settings);
+      }
+
+      async function toggleSettings(setting) {
+        switch (setting) {
+          case "runOnSystemStart":
+            await window.electronAPI.toggleRunOnStartup();
+            break;
+
+          case "startInTray":
+            window.electronAPI.toggleStartMinimised();
+            break;
+
+          case "closeToTray":
+            window.electronAPI.toggleCloseToTray();
+            break;
+
+          default:
+            break;
+        }
+      }
+    </script>
+
+    <script>
+      document.querySelectorAll(".colourCube").forEach((cube) => {
+        cube.addEventListener("click", async () => {
+          const colour = cube.style.backgroundColor;
+          if (
+            cube.parentElement.parentElement.parentElement.id ==
+            "accentColourSettings"
+          ) {
+            selectAccentColours(colour);
+            await window.electronAPI.setAccentColour(colour);
+          } else {
+            selectBackgroundColours(colour);
+          }
+        });
+      });
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        const accentColour = await window.electronAPI.getStoreValue(
+          "accentColour"
+        );
+        selectAccentColours(accentColour);
+      });
+
+      function selectAccentColours(colour) {
+        switch (colour) {
+          case "red":
+            document.documentElement.style.setProperty(
+              "--primaryAccentColour",
+              "#ff0022"
+            );
+            document.documentElement.style.setProperty(
+              "--secondaryAccentColour",
+              "#ff00222c"
+            );
+            break;
+
+          case "blue":
+            document.documentElement.style.setProperty(
+              "--primaryAccentColour",
+              "#0059ff"
+            );
+            document.documentElement.style.setProperty(
+              "--secondaryAccentColour",
+              "#0059ff2c"
+            );
+            break;
+
+          case "green":
+            document.documentElement.style.setProperty(
+              "--primaryAccentColour",
+              "#00a841"
+            );
+            document.documentElement.style.setProperty(
+              "--secondaryAccentColour",
+              "#00a8412c"
+            );
+            break;
+
+          case "yellow":
+            document.documentElement.style.setProperty(
+              "--primaryAccentColour",
+              "#ebb813"
+            );
+            document.documentElement.style.setProperty(
+              "--secondaryAccentColour",
+              "#ebb8132c"
+            );
+            break;
+
+          case "purple":
+            document.documentElement.style.setProperty(
+              "--primaryAccentColour",
+              "#854fe8"
+            );
+            document.documentElement.style.setProperty(
+              "--secondaryAccentColour",
+              "#854fe82c"
+            );
+            break;
+
+          case "orange":
+            document.documentElement.style.setProperty(
+              "--primaryAccentColour",
+              "#f18d1a"
+            );
+            document.documentElement.style.setProperty(
+              "--secondaryAccentColour",
+              "#f18d1a2c"
+            );
+            break;
+
+          case "pink":
+            document.documentElement.style.setProperty(
+              "--primaryAccentColour",
+              "#ee80e5"
+            );
+            document.documentElement.style.setProperty(
+              "--secondaryAccentColour",
+              "#ee80e52c"
+            );
+            break;
+
+          case "brown":
+            document.documentElement.style.setProperty(
+              "--primaryAccentColour",
+              "#973c00"
+            );
+            document.documentElement.style.setProperty(
+              "--secondaryAccentColour",
+              "#973c002c"
+            );
+            break;
+
+          default:
+            break;
+        }
+      }
+    </script>
+
+    <script>
+      function popup(message, buttonText, buttonFunction) {
+        const popup = document.createElement("div");
+        popup.classList.add("popup");
+        popup.innerHTML = `
                 <p class="popupMessage">${message}</p>
                 <div class="popupButtonContainer">
                     <button id="popupCancel" class="popupButton">Cancel</button>
                     <button id="popupContinue" class="popupButton red">${buttonText}</button>
                 </div>
             `;
-            document.body.style.pointerEvents = 'none';
-            document.body.appendChild(popup).style.pointerEvents = 'auto';
+        document.body.style.pointerEvents = "none";
+        document.body.appendChild(popup).style.pointerEvents = "auto";
 
-            const cancelButton = document.querySelector('#popupCancel');
-            cancelButton.addEventListener('click', () => {
-                popup.remove();
-                document.body.style.pointerEvents = 'auto';
-            });
+        const cancelButton = document.querySelector("#popupCancel");
+        cancelButton.addEventListener("click", () => {
+          popup.remove();
+          document.body.style.pointerEvents = "auto";
+        });
 
-            const popupButton = document.querySelector('#popupContinue');
-            popupButton.addEventListener('click', () => {
-                buttonFunction();
-                popup.remove();
-                document.body.style.pointerEvents = 'auto';
-            });
-
-        }
+        const popupButton = document.querySelector("#popupContinue");
+        popupButton.addEventListener("click", () => {
+          buttonFunction();
+          popup.remove();
+          document.body.style.pointerEvents = "auto";
+        });
+      }
     </script>
 
     <script>
-        function clearCache() {
-            window.electronAPI.clearIconCache();
-            const appsContainer = document.getElementById('appsContainer');
-            appsContainer.querySelectorAll('.appIcon').forEach(icon => {
-                if (!icon.src.includes('assets/')) {
-                    icon.src = './assets/desktop.jpg';
-                }
-            });
-        }
+      function clearCache() {
+        window.electronAPI.clearIconCache();
+        const appsContainer = document.getElementById("appsContainer");
+        appsContainer.querySelectorAll(".appIcon").forEach((icon) => {
+          if (!icon.src.includes("assets/")) {
+            icon.src = "./assets/desktop.jpg";
+          }
+        });
+      }
     </script>
 
     <script src="displayActiveApps.js"></script>
-    
-</body>
+  </body>
 </html>

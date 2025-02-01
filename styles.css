@@ -1,291 +1,290 @@
 :root {
-    --primaryAccentColour: #854fe8;
-    --secondaryAccentColour: #854fe82c;
+  --primaryAccentColour: #854fe8;
+  --secondaryAccentColour: #854fe82c;
 }
 
 body {
-    background-color: #ececec;
-    -webkit-app-region: drag;
-    -webkit-user-select: none;
-    user-select: none;
+  background-color: #ececec;
+  -webkit-app-region: drag;
+  -webkit-user-select: none;
+  user-select: none;
 
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .titleBar {
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 40px;
-    background-color: #ececec;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background-color: #ececec;
 
-    -webkit-app-region: drag;
-    -webkit-user-select: none;
-    user-select: none;
+  -webkit-app-region: drag;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .titleBarText {
-    position: absolute;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-weight: 600;
-    font-size: 15px;
-    left: 10px;
-    top: -10px;
-    color: var(--primaryAccentColour);
+  position: absolute;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  left: 10px;
+  top: -10px;
+  color: var(--primaryAccentColour);
 }
 
 .side-panel {
-    position: fixed;
-    background-color: #ececec;
-    width: 250px;
-    height: calc(100% - 40px);
-    bottom: 0px;
-    left: 0px;
-    display: flex;
-    flex-direction: column;
-    z-index: 1;
-    border-radius: 0 -20px 0 0;
+  position: fixed;
+  background-color: #ececec;
+  width: 250px;
+  height: calc(100% - 40px);
+  bottom: 0px;
+  left: 0px;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  border-radius: 0 -20px 0 0;
 }
 
 .side-panel .button {
-    margin-top: 20px;
-    width: 75%;
-    height: fit-content;
-    padding: 10px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    background-color: #ececec;
-    color: #505050;
-    font-size: x-large;
-    border-radius: 10px;
-    border: 0;
-    margin-left: calc(25% / 2);
-    text-align: left;
+  margin-top: 20px;
+  width: 75%;
+  height: fit-content;
+  padding: 10px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color: #ececec;
+  color: #505050;
+  font-size: x-large;
+  border-radius: 10px;
+  border: 0;
+  margin-left: calc(25% / 2);
+  text-align: left;
 }
 
 .side-panel .button:focus {
-    outline: 2px solid var(--primaryAccentColour); 
+  outline: 2px solid var(--primaryAccentColour);
 }
 
 .side-panel .button:hover {
-    background-color: #c0c0c0;
-    transition: background-color 0.2s ease;
-    cursor: pointer;
+  background-color: #c0c0c0;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
 }
 
 .side-panel .button:active {
-    background-color: #838383;
+  background-color: #838383;
 }
 
 .side-panel .button.clicked {
-    background-color: var(--secondaryAccentColour);
-    color: var(--primaryAccentColour);
+  background-color: var(--secondaryAccentColour);
+  color: var(--primaryAccentColour);
 }
 
 .popup {
-    position: fixed;
+  position: fixed;
 
-    height: fit-content;
-    width: fit-content;
+  height: fit-content;
+  width: fit-content;
 
-    background-color: #ececec;
-    z-index: 2;
+  background-color: #ececec;
+  z-index: 2;
 
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 
-    padding: 10px;
+  padding: 10px;
 
-    border-radius: 20px;
-    outline: solid rgba(0, 0, 0, 0.575);
-    outline-width: 400vw;
+  border-radius: 20px;
+  outline: solid rgba(0, 0, 0, 0.575);
+  outline-width: 400vw;
 }
 
 .popupButtonContainer {
-    width: max-content;
+  width: max-content;
 
-    margin-left: 100%;
-    transform: translateX(-100%);
+  margin-left: 100%;
+  transform: translateX(-100%);
 
-    margin-top: 30px;
+  margin-top: 30px;
 }
 
 .popupButton {
-    width: 125px;
-    height: 35px;
-    border-radius: 10px;
-    border: var(--primaryAccentColour) 2px solid;
+  width: 125px;
+  height: 35px;
+  border-radius: 10px;
+  border: var(--primaryAccentColour) 2px solid;
 }
 
 .popupButton:hover {
-    color: white;
-    background-color: var(--primaryAccentColour);
-    transition: background-color 0.3s ease, color 0.3s ease;
-    cursor: pointer;
+  color: white;
+  background-color: var(--primaryAccentColour);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
 }
 
 .popupButton.red {
-    border: rgb(218, 55, 60) 2px solid;
+  border: rgb(218, 55, 60) 2px solid;
 }
 
 .popupButton.red:hover {
-    background-color: rgb(218, 55, 60);
+  background-color: rgb(218, 55, 60);
 }
 
 .popupMessage {
-    max-width: 40vw;
-    text-align: center;
+  max-width: 40vw;
+  text-align: center;
 }
 
 .main {
-    position: fixed;
-    height: calc(100% - 40px);
-    width: calc(100% - 250px);
-    right: 0;
-    bottom: 0;
-    background-color: white;
-    border-radius: 20px 0 0 0;
-    overflow-y: auto;
+  position: fixed;
+  height: calc(100% - 40px);
+  width: calc(100% - 250px);
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  border-radius: 20px 0 0 0;
+  overflow-y: auto;
 
-    display: none;
+  display: none;
 }
 
 .main.active {
-    display: block;
+  display: block;
 }
 
 .appsContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .app {
-    margin-top: 20px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: large;
-    width: 600px;
-    border-radius: 15px;
-    display: flex;
-    flex-direction: row;
-    padding: 10px 20px 10px 20px;
-    transition: transform 0.5s ease;
+  margin-top: 20px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: large;
+  width: 600px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  padding: 10px 20px 10px 20px;
+  transition: transform 0.5s ease;
 }
 
 .app:hover {
-    outline-style: solid;
-    outline-color: #ececec;
+  outline-style: solid;
+  outline-color: #ececec;
 }
 
 .appTime {
-    margin-left: auto;
+  margin-left: auto;
 }
 
 .appIcon {
-    height: 32px;
-    width: 32px;
-    align-self: center;
-    margin-right: 20px;
+  height: 32px;
+  width: 32px;
+  align-self: center;
+  margin-right: 20px;
 }
 
 .settingsContainer {
-    position: absolute;
-    left: 25%;
-    width: 50%;
+  position: absolute;
+  left: 25%;
+  width: 50%;
 }
 
 .settingsTitle {
-    font-size: 30px;
-
+  font-size: 30px;
 }
 
 .settingsSubTitle {
-    font-size: 15px;
-    font-weight: bold;
-    margin-top: 35px;
-    margin-bottom: -5px;
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 35px;
+  margin-bottom: -5px;
 }
 
 .setting {
-    font-size: 23px;
-    margin-left: 40px;
-    display: flex;
-    flex-direction: row;
-    height: 70px;
+  font-size: 23px;
+  margin-left: 40px;
+  display: flex;
+  flex-direction: row;
+  height: 70px;
 }
 
 .settingsDescription {
-    position: absolute;
-    margin-top: 55px;
-    font-size: 15px;
-    font-style: italic;
+  position: absolute;
+  margin-top: 55px;
+  font-size: 15px;
+  font-style: italic;
 }
 
 #loadingText {
-    position: relative;
-    width: 20px;
-    left: calc(50% - 20px);
-    top: 10%;
+  position: relative;
+  width: 20px;
+  left: calc(50% - 20px);
+  top: 10%;
 }
 
 #colours {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    margin-top: 70px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  margin-top: 70px;
 }
 
 .colourRow {
-    display: flex;
-    flex-direction: row;
-    margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
 }
 
 .colourCube {
-    width: 40px;
-    height: 40px;
-    border: #ececec calc(30px * 0.2) solid;
-    margin-right: 10px;
-    border-radius: 15px;
-    cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border: #ececec calc(30px * 0.2) solid;
+  margin-right: 10px;
+  border-radius: 15px;
+  cursor: pointer;
 }
 
 #colourSettings {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 #backgroundColourSetting {
-    margin-left: 250px;
+  margin-left: 250px;
 }
 
 #advancedSettings {
-    margin-top: 155px;
+  margin-top: 155px;
 }
 
 .settingsButton {
-    margin-left: auto;
-    margin-top: 45px;
-    width: 125px;
-    height: 50px;
-    align-self: center;
-    border: var(--primaryAccentColour) 2px solid;
-    border-radius: 10px;
+  margin-left: auto;
+  margin-top: 45px;
+  width: 125px;
+  height: 50px;
+  align-self: center;
+  border: var(--primaryAccentColour) 2px solid;
+  border-radius: 10px;
 }
 
 .settingsButton:hover {
-    color: white;
-    background-color: var(--primaryAccentColour);
-    transition: background-color 0.3s ease, color 0.3s ease;
-    cursor: pointer;
+  color: white;
+  background-color: var(--primaryAccentColour);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
 }
 
 .settingsButton.red {
-    border: rgb(218, 55, 60) 2px solid;
+  border: rgb(218, 55, 60) 2px solid;
 }
 
 .settingsButton.red:hover {
-    background-color: rgb(218, 55, 60);
+  background-color: rgb(218, 55, 60);
 }
