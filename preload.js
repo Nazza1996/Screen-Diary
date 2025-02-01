@@ -14,9 +14,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
     setAccentColour: async (colour) => ipcRenderer.invoke('set-accent-colour', colour),
     getStoreValue: (key) => ipcRenderer.invoke('get-store-value', key),
 
-    exportSettings: async () => ipcRenderer.invoke('export-settings'),
-    importSettings: async () => ipcRenderer.invoke('import-settings'),
-    clearIconCache: async () => ipcRenderer.invoke('clear-icon-cache'),
+    exportSettings: () => ipcRenderer.invoke('export-settings'),
+    importSettings: () => ipcRenderer.invoke('import-settings'),
+    clearIconCache: () => ipcRenderer.invoke('clear-icon-cache'),
     factoryReset: () => ipcRenderer.invoke('factory-reset'),
     clearHistory: () => ipcRenderer.invoke('clear-history'),
 });

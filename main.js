@@ -44,7 +44,7 @@ function createWindow() {
     });
 
     // Create a system tray icon
-    tray = new Tray(path.join(__dirname, "/assets/icon.png"));
+    let tray = new Tray(path.join(__dirname, "/assets/icon.png"));
     const contextMenu = Menu.buildFromTemplate([
         {label: 'Show Screen Diary', click: () => {
             win.show(); // Show the window
@@ -145,15 +145,15 @@ ipcMain.handle('get-store-value', async (event, key) => {
     return store.get(key); // Get the value from the store
 });
 
-ipcMain.handle('export-settings', async (event) => {
-    return await exportSettings(); // Export the settings
+ipcMain.handle('export-settings', () => {
+    return exportSettings(); // Export the settings
 });
 
-ipcMain.handle('import-settings', async (event) => {
-    return await importSettings(); // Import the settings
+ipcMain.handle('import-settings', () => {
+    return importSettings(); // Import the settings
 });
 
-ipcMain.handle('clear-icon-cache', async (event) => {
+ipcMain.handle('clear-icon-cache', () => {
     return clearIconCache(); // Export the settings
 });
 
