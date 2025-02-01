@@ -107,11 +107,11 @@
                 <p class="settingsDescription">Reset and delete all of you usage history.</p>
             </div>
             <div class="setting"><p>Clear Icon Cache</p>
-                <button class="settingsButton red" onClick="popup('Are you sure you want to clear the icon cache? <br><br> Icons will only reappear once their corresponding apps are focused again.', 'Clear Icon Cache', () => {window.electronAPI.clearIconCache()})">Clear Icon Cache</button>
+                <button class="settingsButton red" onClick="popup('Are you sure you want to clear the icon cache?<br><br>Icons will only reappear once their corresponding apps are focused again.', 'Clear Icon Cache', clearCache)">Clear Icon Cache</button>
                 <p class="settingsDescription">Clear all saved icons.</p>
             </div>
             <div class="setting"><p>Factory Reset</p>
-                <button class="settingsButton red" onClick="popup('Are you sure you want to reset Screen Diary?<br>This action cannot be undone.', 'Reset', () => {window.electronAPI.factoryReset()})">Reset</button>
+                <button class="settingsButton red" onClick="popup('Are you sure you want to reset Screen Diary?<br><br><strong>This action cannot be undone.</strong>', 'Reset', () => {window.electronAPI.factoryReset()})">Reset</button>
                 <p class="settingsDescription">Reset all settings to default.</p>
             </div>
 
@@ -266,6 +266,18 @@
                 document.body.style.pointerEvents = 'auto';
             });
 
+        }
+    </script>
+
+    <script>
+        function clearCache() {
+            window.electronAPI.clearIconCache();
+            const appsContainer = document.getElementById('appsContainer');
+            appsContainer.querySelectorAll('.appIcon').forEach(icon => {
+                if (!icon.src.includes('assets/')) {
+                    icon.src = './assets/desktop.jpg';
+                }
+            });
         }
     </script>
 
